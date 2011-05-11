@@ -246,6 +246,11 @@ public class DocType
         return (DocType) super.clone();
     }
 
+    @Override
+    public DocType detach() {
+        return (DocType) super.detach();
+    }
+
     /**
      * This returns a <code>String</code> representation of the <code>DocType</code>, suitable for debugging.
      *

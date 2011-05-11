@@ -407,18 +407,6 @@ public class ProcessingInstruction
     }
 
     /**
-     * This returns a <code>String</code> representation of the <code>ProcessingInstruction</code>, suitable for
-     * debugging. If the XML representation of the <code>ProcessingInstruction</code> is desired, {@link
-     * org.cdmckay.coffeedom.output.XMLOutputter#outputString(ProcessingInstruction)} should be used.
-     *
-     * @return <code>String</code> - information about the <code>ProcessingInstruction</code>
-     */
-    public String toString() {
-        return new StringBuffer().append("[ProcessingInstruction: ")
-                .append(new org.cdmckay.coffeedom.output.XMLOutputter().outputString(this)).append("]").toString();
-    }
-
-    /**
      * This will return a clone of this <code>ProcessingInstruction</code>.
      *
      * @return <code>Object</code> - clone of this <code>ProcessingInstruction</code>.
@@ -434,5 +422,22 @@ public class ProcessingInstruction
             pi.mapData = parseData(rawData);
         }
         return pi;
+    }
+
+    @Override
+    public ProcessingInstruction detach() {
+        return (ProcessingInstruction) super.detach();
+    }
+
+    /**
+     * This returns a <code>String</code> representation of the <code>ProcessingInstruction</code>, suitable for
+     * debugging. If the XML representation of the <code>ProcessingInstruction</code> is desired, {@link
+     * org.cdmckay.coffeedom.output.XMLOutputter#outputString(ProcessingInstruction)} should be used.
+     *
+     * @return <code>String</code> - information about the <code>ProcessingInstruction</code>
+     */
+    public String toString() {
+        return new StringBuffer().append("[ProcessingInstruction: ")
+                .append(new org.cdmckay.coffeedom.output.XMLOutputter().outputString(this)).append("]").toString();
     }
 }

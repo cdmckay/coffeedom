@@ -1120,6 +1120,10 @@ public class Element
         return element;
     }
 
+    @Override
+    public Element detach() {
+        return (Element) super.detach();
+    }
 
     // Support a custom Namespace serialization so no two namespace
     // object instances may exist for the same prefix/uri pair

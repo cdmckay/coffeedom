@@ -126,6 +126,11 @@ public class Comment
         return (Comment) super.clone();
     }
 
+    @Override
+    public Comment detach() {
+        return (Comment) super.detach();
+    }
+
     /**
      * This returns a <code>String</code> representation of the <code>Comment</code>, suitable for debugging. If the XML
      * representation of the <code>Comment</code> is desired, {@link org.cdmckay.coffeedom.output.XMLOutputter#outputString(Comment)}

@@ -211,6 +211,16 @@ public class EntityRef
         return this;
     }
 
+    @Override
+    public EntityRef clone() {
+        return (EntityRef) super.clone();
+    }
+
+    @Override
+    public EntityRef detach() {
+        return (EntityRef) super.detach();
+    }
+
     /**
      * This returns a <code>String</code> representation of the <code>EntityRef</code>, suitable for debugging.
      *

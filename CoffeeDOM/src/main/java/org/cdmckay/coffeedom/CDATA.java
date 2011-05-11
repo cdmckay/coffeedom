@@ -178,6 +178,16 @@ public class CDATA
         append(text.getText());
     }
 
+    @Override
+    public CDATA clone() {
+        return (CDATA) super.clone();
+    }
+
+    @Override
+    public CDATA detach() {
+        return (CDATA) super.detach();
+    }
+
     /**
      * This returns a <code>String</code> representation of the <code>CDATA</code> node, suitable for debugging. If the
      * XML representation of the <code>CDATA</code> node is desired, either <code>{@link #getText}</code> or {@link

@@ -225,6 +225,22 @@ public class Text
         return value;
     }
 
+     /**
+     * This will return a clone of this <code>Text</code> node, with the same character content, but no parent.
+     *
+     * @return <code>Text</code> - cloned node.
+     */
+    public Text clone() {
+        Text text = (Text) super.clone();
+        text.value = value;
+        return text;
+    }
+
+    @Override
+    public Text detach() {
+        return (Text) super.detach();
+    }
+
     /**
      * This returns a <code>String</code> representation of the <code>Text</code> node, suitable for debugging. If the
      * XML representation of the <code>Text</code> node is desired, either <code>{@link #getText}</code> or {@link
@@ -234,17 +250,6 @@ public class Text
      */
     public String toString() {
         return new StringBuffer(64).append("[Text: ").append(getText()).append("]").toString();
-    }
-
-    /**
-     * This will return a clone of this <code>Text</code> node, with the same character content, but no parent.
-     *
-     * @return <code>Text</code> - cloned node.
-     */
-    public Text clone() {
-        Text text = (Text) super.clone();
-        text.value = value;
-        return text;
     }
 
 }
