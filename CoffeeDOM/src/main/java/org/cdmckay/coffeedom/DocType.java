@@ -241,6 +241,15 @@ public class DocType
         return internalSubset;
     }
 
+    /**
+     * According to the XML specification, DocType declarations can only children of documents.
+     * @return The {@see Document} that the DocType is attached to.
+     */
+    @Override
+    public Document getParent() {
+        return (Document) super.getParent();
+    }
+
     @Override
     protected DocType setParent(Parent parent) {
         return (DocType) super.setParent(parent);

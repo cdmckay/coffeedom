@@ -66,7 +66,6 @@ import java.util.*;
  * @author Steven Gould
  * @author Cameron McKay
  */
-
 public class ProcessingInstruction
         extends Content {
 

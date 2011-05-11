@@ -102,8 +102,8 @@ public abstract class Content
 
     /**
      * A convenience method that returns any parent element for this element, or null if the element is unattached or is
-     * a root element.  This was the original behavior of getParent() in CoffeeDOM Beta 9 which began returning Parent in
-     * Beta 10.  This method provides a convenient upgrade path for CoffeeDOM Beta 10 and 1.0 users.
+     * a root element.  This was the original behavior of getParent() in JDOM Beta 9 which began returning Parent in
+     * Beta 10.  This method provides a convenient upgrade path for JDOM Beta 10 and 1.0 users.
      *
      * @return the containing Element or null if unattached or a root element
      */

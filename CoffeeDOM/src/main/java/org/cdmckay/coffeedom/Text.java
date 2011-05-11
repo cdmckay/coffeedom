@@ -226,6 +226,11 @@ public class Text
     }
 
     @Override
+    public Element getParent() {
+        return (Element) super.getParent();
+    }
+
+    @Override
     protected Text setParent(Parent parent) {
         return (Text) super.setParent(parent);
     }
