@@ -225,7 +225,12 @@ public class Text
         return value;
     }
 
-     /**
+    @Override
+    protected Text setParent(Parent parent) {
+        return (Text) super.setParent(parent);
+    }
+
+    /**
      * This will return a clone of this <code>Text</code> node, with the same character content, but no parent.
      *
      * @return <code>Text</code> - cloned node.

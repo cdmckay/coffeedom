@@ -227,6 +227,11 @@ public class Element
         return this;
     }
 
+    @Override
+    protected Element setParent(Parent parent) {
+        return (Element) super.setParent(parent);
+    }
+
     /**
      * Returns the namespace prefix of the element or an empty string if none exists.
      *

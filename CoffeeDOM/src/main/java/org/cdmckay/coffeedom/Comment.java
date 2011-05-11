@@ -122,6 +122,11 @@ public class Comment
     }
 
     @Override
+    protected Comment setParent(Parent parent) {
+        return (Comment) super.setParent(parent);
+    }
+
+    @Override
     public Comment clone() {
         return (Comment) super.clone();
     }

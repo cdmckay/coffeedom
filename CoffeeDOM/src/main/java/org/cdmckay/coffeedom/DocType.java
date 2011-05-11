@@ -242,6 +242,11 @@ public class DocType
     }
 
     @Override
+    protected DocType setParent(Parent parent) {
+        return (DocType) super.setParent(parent);
+    }
+
+    @Override
     public DocType clone() {
         return (DocType) super.clone();
     }

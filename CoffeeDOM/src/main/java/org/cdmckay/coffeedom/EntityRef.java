@@ -212,6 +212,11 @@ public class EntityRef
     }
 
     @Override
+    protected EntityRef setParent(Parent parent) {
+        return (EntityRef) super.setParent(parent);
+    }
+
+    @Override
     public EntityRef clone() {
         return (EntityRef) super.clone();
     }

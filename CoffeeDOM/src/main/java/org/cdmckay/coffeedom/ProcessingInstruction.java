@@ -406,6 +406,11 @@ public class ProcessingInstruction
         return null;
     }
 
+    @Override
+    protected ProcessingInstruction setParent(Parent parent) {
+        return (ProcessingInstruction) super.setParent(parent);
+    }
+
     /**
      * This will return a clone of this <code>ProcessingInstruction</code>.
      *

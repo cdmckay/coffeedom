@@ -152,7 +152,7 @@ public class CDATA
         // "]" + "]>" 
         // or 
         // "]]" + ">"
-        // TODO: maybe this could be optimized for this two cases
+        // TODO Maybe this could be optimized for these two cases.
         final String reason = Verifier.checkCDATASection(tmpValue);
         if (reason != null) {
             throw new IllegalDataException(str, "CDATA section", reason);
@@ -176,6 +176,11 @@ public class CDATA
             return;
         }
         append(text.getText());
+    }
+
+    @Override
+    protected CDATA setParent(Parent parent) {
+        return (CDATA) super.setParent(parent);
     }
 
     @Override
