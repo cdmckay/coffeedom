@@ -77,9 +77,9 @@ final class NameMangler {
      *
      * @param ctor   The constructor object to mangle.
      * @param buffer The buffer to place the result into.
-     * @return A StringBuffer containing the mangled name.
+     * @return A StringBuilder containing the mangled name.
      */
-    static StringBuffer getMangledName(Constructor ctor, StringBuffer buffer) {
+    static StringBuilder getMangledName(Constructor ctor, StringBuilder buffer) {
         // Add parameters if there are any.
         Class[] argTypes = ctor.getParameterTypes();
         if (argTypes.length > 0) {
@@ -96,7 +96,7 @@ final class NameMangler {
      * @param buffer The buffer to append the mangled name to.
      * @return A buffer with the mangled name appended.
      */
-    static StringBuffer getMangledName(Method method, StringBuffer buffer) {
+    static StringBuilder getMangledName(Method method, StringBuilder buffer) {
         // Get the return type in
         Class retType = method.getReturnType();
         getNormalized(retType, buffer).append('_');
@@ -118,9 +118,9 @@ final class NameMangler {
      *
      * @param classes An array of class names to normalize
      * @param buffer  The target for the strings.
-     * @return A StringBuffer containg the normalized class names.
+     * @return A StringBuilder containg the normalized class names.
      */
-    static StringBuffer getNormalized(Class[] classes, StringBuffer buffer) {
+    static StringBuilder getNormalized(Class[] classes, StringBuilder buffer) {
         buffer.append('_');
 
         for (int i = 0; i < classes.length; i++) {
@@ -138,9 +138,9 @@ final class NameMangler {
      *
      * @param classes An array of class names to normalize
      * @param buffer  The target for the strings.
-     * @return A StringBuffer containg the normalized class names.
+     * @return A StringBuilder containg the normalized class names.
      */
-    static StringBuffer getNormalized(Class cls, StringBuffer buffer) {
+    static StringBuilder getNormalized(Class cls, StringBuilder buffer) {
         String name = cls.getName();
 
         // Check for arrays, pesky things......

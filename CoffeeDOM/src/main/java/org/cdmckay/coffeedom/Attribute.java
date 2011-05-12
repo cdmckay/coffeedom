@@ -363,7 +363,7 @@ public class Attribute
         if ((prefix == null) || ("".equals(prefix))) {
             return getName();
         } else {
-            return new StringBuffer(prefix).append(':').append(getName()).toString();
+            return new StringBuilder(prefix).append(':').append(getName()).toString();
         }
     }
 
@@ -478,8 +478,10 @@ public class Attribute
      * @return <code>String</code> - information about the <code>Attribute</code>
      */
     public String toString() {
-        return new StringBuffer().append("[Attribute: ").append(getQualifiedName()).append("=\"").append(value)
-                .append("\"").append("]").toString();
+        return new StringBuilder().append("[Attribute: ")
+                .append(getQualifiedName()).append("=\"").append(value).append("\"")
+                .append("]")
+                .toString();
     }
 
     /**

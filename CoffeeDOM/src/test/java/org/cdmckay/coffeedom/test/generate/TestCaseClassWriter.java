@@ -97,7 +97,7 @@ public class TestCaseClassWriter extends IndentWriter {
             println("import " + sourcePackage + ".*;");
         }
         println();
-        println(new StringBuffer("public final class ")
+        println(new StringBuilder("public final class ")
                 .append(className)
                 .toString());
 
@@ -181,7 +181,7 @@ public class TestCaseClassWriter extends IndentWriter {
         addComment(" Construct a new instance. ");
         endComment();
 
-        println(new StringBuffer("public ")
+        println(new StringBuilder("public ")
                 .append(className)
                 .append("(String name) {")
                 .toString());
@@ -236,7 +236,7 @@ public class TestCaseClassWriter extends IndentWriter {
         addComment(comment);
         endComment();
 
-        println(new StringBuffer("public void ")
+        println(new StringBuilder("public void ")
                 .append(name)
                 .append("() {")
                 .toString());
@@ -258,10 +258,10 @@ public class TestCaseClassWriter extends IndentWriter {
         addComment("The suite method runs all the tests");
         endComment();
         incr();
-        println(new StringBuffer("public static Test suite ")
+        println(new StringBuilder("public static Test suite ")
                 .append("() {"));
 
-        println(new StringBuffer("TestSuite suite = new TestSuite(")
+        println(new StringBuilder("TestSuite suite = new TestSuite(")
                 .append(className)
                 .append(".class);").toString());
         println("return suite;");

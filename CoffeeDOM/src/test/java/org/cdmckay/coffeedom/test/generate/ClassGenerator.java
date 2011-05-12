@@ -163,7 +163,7 @@ final class ClassGenerator {
         //
         // test_TCM_<mangled method name>
         //
-        StringBuffer buffer = new StringBuffer("test_");
+        StringBuilder buffer = new StringBuilder("test_");
         buffer.append(ctorPrefix);
         buffer.append("_");
         NameMangler.getMangledName(ctor, buffer);
@@ -187,7 +187,7 @@ final class ClassGenerator {
         //
         // test_TCM_<mangled method name>
         //
-        StringBuffer buffer = new StringBuffer("test_");
+        StringBuilder buffer = new StringBuilder("test_");
         buffer.append(methodPrefix);
         buffer.append("_");
         NameMangler.getMangledName(method, buffer);
@@ -257,7 +257,7 @@ final class ClassGenerator {
      *                    generated.
      */
     void generate(Constructor ctor) throws GeneratorException {
-        StringBuffer buffer = new StringBuffer(ctorPrefix);
+        StringBuilder buffer = new StringBuilder(ctorPrefix);
 
         buffer.append(className);
         buffer.append("_");
@@ -272,7 +272,7 @@ final class ClassGenerator {
         // If it does cowardly throw an exception.
         File f = new File(path, fileName);
         if (f.exists()) {
-            throw new GeneratorException(new StringBuffer("File (")
+            throw new GeneratorException(new StringBuilder("File (")
                     .append(fileName)
                     .append(") exists ")
                     .toString());
@@ -296,7 +296,7 @@ final class ClassGenerator {
         //
         // TCM_<class>_<mangled method name>
         //
-        StringBuffer buffer = new StringBuffer(methodPrefix);
+        StringBuilder buffer = new StringBuilder(methodPrefix);
         buffer.append(className);
         buffer.append("_");
 
@@ -312,7 +312,7 @@ final class ClassGenerator {
         // If it does cowardly throw an exception.
         File f = new File(path, fileName);
         if (f.exists()) {
-            throw new GeneratorException(new StringBuffer("File (")
+            throw new GeneratorException(new StringBuilder("File (")
                     .append(fileName)
                     .append(") exists ")
                     .toString());
@@ -398,7 +398,7 @@ final class ClassGenerator {
     void loadTestClass(String testClass) throws GeneratorException {
 
 
-        StringBuffer buffer = new StringBuffer(packageName);
+        StringBuilder buffer = new StringBuilder(packageName);
         buffer.append(".");
         buffer.append(testClass);
 

@@ -111,7 +111,7 @@ final class AndFilter
 
     @Override
     public String toString() {
-        return new StringBuffer(64).append("[AndFilter: ").append(left.toString()).append(",\n").append("            ")
+        return new StringBuilder(64).append("[AndFilter: ").append(left.toString()).append(",\n").append("            ")
                 .append(right.toString()).append("]").toString();
     }
 }

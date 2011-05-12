@@ -272,7 +272,7 @@ public class ProcessingInstruction
      * @return a string representation of the Map as appropriate for a PI
      */
     private String toString(Map<String, String> mapData) {
-        StringBuffer rawData = new StringBuffer();
+        StringBuilder rawData = new StringBuilder();
 
         for (String name : mapData.keySet()) {
             String value = mapData.get(name);
@@ -441,7 +441,7 @@ public class ProcessingInstruction
      * @return <code>String</code> - information about the <code>ProcessingInstruction</code>
      */
     public String toString() {
-        return new StringBuffer().append("[ProcessingInstruction: ")
+        return new StringBuilder().append("[ProcessingInstruction: ")
                 .append(new org.cdmckay.coffeedom.output.XMLOutputter().outputString(this)).append("]").toString();
     }
 }

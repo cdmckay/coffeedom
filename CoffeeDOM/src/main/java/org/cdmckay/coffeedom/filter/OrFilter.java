@@ -119,7 +119,7 @@ final class OrFilter
     }
 
     public String toString() {
-        return new StringBuffer(64).append("[OrFilter: ").append(leftFilter.toString()).append(",\n")
+        return new StringBuilder(64).append("[OrFilter: ").append(leftFilter.toString()).append(",\n")
                 .append("           ").append(rightFilter.toString()).append("]").toString();
     }
 }

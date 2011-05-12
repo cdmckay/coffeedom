@@ -305,7 +305,7 @@ public class Element
             return getName();
         }
 
-        return new StringBuffer(namespace.getPrefix()).append(':').append(name).toString();
+        return new StringBuilder(namespace.getPrefix()).append(':').append(name).toString();
     }
 
     /**
@@ -373,7 +373,7 @@ public class Element
      * @return a concatentation of all text node descendants
      */
     public String getValue() {
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
 
         for (Object o : getContents()) {
             final Content child = (Content) o;
@@ -437,7 +437,7 @@ public class Element
         }
 
         // Else build String up
-        final StringBuffer textContent = new StringBuffer();
+        final StringBuilder textContent = new StringBuilder();
         boolean hasText = false;
 
         for (final Content content : this.contents) {
@@ -1063,7 +1063,7 @@ public class Element
      * @return <code>String</code> - information about the <code>Element</code>
      */
     public String toString() {
-        final StringBuffer stringForm = new StringBuffer(64).append("[Element: <").append(getQualifiedName());
+        final StringBuilder stringForm = new StringBuilder(64).append("[Element: <").append(getQualifiedName());
 
         final String nsuri = getNamespaceURI();
         if (!"".equals(nsuri)) {

@@ -529,7 +529,7 @@ public class Document
      * @return <code>String</code> - information about the <code>Document</code>
      */
     public String toString() {
-        StringBuffer stringForm = new StringBuffer().append("[Document: ");
+        StringBuilder stringForm = new StringBuilder().append("[Document: ");
 
         DocType docType = getDocType();
         if (docType != null) {

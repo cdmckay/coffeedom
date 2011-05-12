@@ -71,7 +71,7 @@ public class DataConversionException
      * @param dataType type the conversion was attempting to create
      */
     public DataConversionException(String name, String dataType) {
-        super(new StringBuffer().append("The XML construct ").append(name).append(" could not be converted to a ")
+        super(new StringBuilder().append("The XML construct ").append(name).append(" could not be converted to a ")
                 .append(dataType).toString());
     }
 }

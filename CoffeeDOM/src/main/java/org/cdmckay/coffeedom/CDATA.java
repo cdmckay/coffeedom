@@ -202,6 +202,6 @@ public class CDATA
      */
     @Override
     public String toString() {
-        return new StringBuffer(64).append("[CDATA: ").append(getText()).append("]").toString();
+        return new StringBuilder(64).append("[CDATA: ").append(getText()).append("]").toString();
     }
 }

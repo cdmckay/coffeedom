@@ -145,7 +145,7 @@ public class Comment
      */
     @Override
     public String toString() {
-        return new StringBuffer().append("[Comment: ")
+        return new StringBuilder().append("[Comment: ")
                 .append(new org.cdmckay.coffeedom.output.XMLOutputter().outputString(this)).append("]").toString();
     }
 

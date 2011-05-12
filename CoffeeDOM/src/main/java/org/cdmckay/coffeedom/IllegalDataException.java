@@ -72,7 +72,7 @@ public class IllegalDataException
      * @param reason    <code>String</code> message or reason data is illegal.
      */
     IllegalDataException(String data, String construct, String reason) {
-        super(new StringBuffer().append("The data \"").append(data).append("\" is not legal for a CoffeeDOM ")
+        super(new StringBuilder().append("The data \"").append(data).append("\" is not legal for a CoffeeDOM ")
                 .append(construct).append(": ").append(reason).append(".").toString());
     }
 
@@ -84,7 +84,7 @@ public class IllegalDataException
      * @param construct <code>String</code> construct that data is illegal for.
      */
     IllegalDataException(String data, String construct) {
-        super(new StringBuffer().append("The data \"").append(data).append("\" is not legal for a CoffeeDOM ")
+        super(new StringBuilder().append("The data \"").append(data).append("\" is not legal for a CoffeeDOM ")
                 .append(construct).append(".").toString());
     }
 

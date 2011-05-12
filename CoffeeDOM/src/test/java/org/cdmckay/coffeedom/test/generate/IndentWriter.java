@@ -54,7 +54,7 @@ public class IndentWriter extends PrintWriter {
      * @param s The String to print.
      */
     public void println(String s) {
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         if (indent > 0) {
             for (int i = 0; i < indent; i++) {
                 out.append("    ");

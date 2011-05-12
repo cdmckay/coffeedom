@@ -57,12 +57,12 @@ package org.cdmckay.coffeedom.input;
 import org.cdmckay.coffeedom.Verifier;
 
 /**
- * A non-public utility class similar to StringBuffer but optimized for XML parsing where the common case is that you
+ * A non-public utility class similar to StringBuilder but optimized for XML parsing where the common case is that you
  * get only one chunk of characters per text section. TextBuffer stores the first chunk of characters in a String, which
  * can just be returned directly if no second chunk is received. Subsequent chunks are stored in a supplemental char
- * buffer (like StringBuffer uses). In this case, the returned text will be the first String chunk, concatenated with the
+ * buffer (like StringBuilder uses). In this case, the returned text will be the first String chunk, concatenated with the
  * subsequent chunks stored in the char buffer. This provides optimal performance in the common case, while still
- * providing very good performance in the uncommon case. Furthermore, avoiding StringBuffer means that no extra unused
+ * providing very good performance in the uncommon case. Furthermore, avoiding StringBuilder means that no extra unused
  * char buffer space will be kept around after parsing is through.
  *
  * @author Bradley S. Huffman
@@ -169,7 +169,7 @@ class TextBuffer {
         } else {
             // Char buffer is not empty, so the text value is prefixString
             // plus the char buffer.
-            str = new StringBuffer(prefixString.length() + bufferSize).append(prefixString).append(buffer, 0,
+            str = new StringBuilder(prefixString.length() + bufferSize).append(prefixString).append(buffer, 0,
                     bufferSize)
                     .toString();
         }

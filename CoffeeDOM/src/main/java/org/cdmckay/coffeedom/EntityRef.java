@@ -237,6 +237,6 @@ public class EntityRef
      * @return <code>String</code> - information about the <code>EntityRef</code>
      */
     public String toString() {
-        return new StringBuffer().append("[EntityRef: ").append("&").append(name).append(";").append("]").toString();
+        return new StringBuilder().append("[EntityRef: ").append("&").append(name).append(";").append("]").toString();
     }
 }

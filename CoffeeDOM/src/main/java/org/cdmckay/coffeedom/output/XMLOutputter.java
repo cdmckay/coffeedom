@@ -1240,7 +1240,7 @@ public class XMLOutputter
      * @throws IllegalArgumentException if an entity can not be escaped
      */
     public String escapeAttributeEntities(String str) {
-        StringBuffer buffer;
+        StringBuilder buffer;
         int ch, pos;
         String entity;
         EscapeStrategy strategy = currentFormat.escapeStrategy;
@@ -1306,9 +1306,9 @@ public class XMLOutputter
             }
             if (buffer == null) {
                 if (entity != null) {
-                    // An entity occurred, so we'll have to use StringBuffer
+                    // An entity occurred, so we'll have to use StringBuilder
                     // (allocate room for it plus a few more entities).
-                    buffer = new StringBuffer(str.length() + 20);
+                    buffer = new StringBuilder(str.length() + 20);
                     // Copy previous skipped characters and fall through
                     // to pickup current character
                     buffer.append(str.substring(0, pos));
@@ -1324,7 +1324,7 @@ public class XMLOutputter
         }
 
         // If there were any entities, return the escaped characters
-        // that we put in the StringBuffer. Otherwise, just return
+        // that we put in the StringBuilder. Otherwise, just return
         // the unmodified input string.
         return (buffer == null) ? str : buffer.toString();
     }
@@ -1343,7 +1343,7 @@ public class XMLOutputter
             return str;
         }
 
-        StringBuffer buffer;
+        StringBuilder buffer;
         int ch, pos;
         String entity;
         EscapeStrategy strategy = currentFormat.escapeStrategy;
@@ -1398,9 +1398,9 @@ public class XMLOutputter
             }
             if (buffer == null) {
                 if (entity != null) {
-                    // An entity occurred, so we'll have to use StringBuffer
+                    // An entity occurred, so we'll have to use StringBuilder
                     // (allocate room for it plus a few more entities).
-                    buffer = new StringBuffer(str.length() + 20);
+                    buffer = new StringBuilder(str.length() + 20);
                     // Copy previous skipped characters and fall through
                     // to pickup current character
                     buffer.append(str.substring(0, pos));
@@ -1416,7 +1416,7 @@ public class XMLOutputter
         }
 
         // If there were any entities, return the escaped characters
-        // that we put in the StringBuffer. Otherwise, just return
+        // that we put in the StringBuilder. Otherwise, just return
         // the unmodified input string.
         return (buffer == null) ? str : buffer.toString();
     }
@@ -1496,7 +1496,7 @@ public class XMLOutputter
     }
 
     // Support method to print a name without using elt.getQualifiedName()
-    // and thus avoiding a StringBuffer creation and memory churn
+    // and thus avoiding a StringBuilder creation and memory churn
     private void printQualifiedName(Writer out, Element e) throws IOException {
         if (e.getNamespace().getPrefix().length() == 0) {
             out.write(e.getName());
@@ -1508,7 +1508,7 @@ public class XMLOutputter
     }
 
     // Support method to print a name without using att.getQualifiedName()
-    // and thus avoiding a StringBuffer creation and memory churn
+    // and thus avoiding a StringBuilder creation and memory churn
     private void printQualifiedName(Writer out, Attribute a) throws IOException {
         String prefix = a.getNamespace().getPrefix();
         if ((prefix != null) && (!prefix.equals(""))) {

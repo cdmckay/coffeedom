@@ -73,7 +73,7 @@ public class IllegalNameException
      * @param reason    <code>String</code> message or reason name is illegal.
      */
     IllegalNameException(String name, String construct, String reason) {
-        super(new StringBuffer().append("The name \"").append(name).append("\" is not legal for CoffeeDOM/XML ")
+        super(new StringBuilder().append("The name \"").append(name).append("\" is not legal for CoffeeDOM/XML ")
                 .append(construct).append("s: ").append(reason).append(".").toString());
     }
 
@@ -85,7 +85,7 @@ public class IllegalNameException
      * @param construct <code>String</code> name of CoffeeDOM construct that <code>name</code> was supplied to.
      */
     IllegalNameException(String name, String construct) {
-        super(new StringBuffer().append("The name \"").append(name).append("\" is not legal for CoffeeDOM/XML ")
+        super(new StringBuilder().append("The name \"").append(name).append("\" is not legal for CoffeeDOM/XML ")
                 .append(construct).append("s.").toString());
     }
 

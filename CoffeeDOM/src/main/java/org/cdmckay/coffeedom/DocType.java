@@ -271,7 +271,7 @@ public class DocType
      * @return <code>String</code> - information about the <code>DocType</code>
      */
     public String toString() {
-        return new StringBuffer().append("[DocType: ")
+        return new StringBuilder().append("[DocType: ")
                 .append(new org.cdmckay.coffeedom.output.XMLOutputter().outputString(this)).append("]").toString();
     }
 }

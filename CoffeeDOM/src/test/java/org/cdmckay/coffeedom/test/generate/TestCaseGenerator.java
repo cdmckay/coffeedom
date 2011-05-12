@@ -212,7 +212,7 @@ final class TestCaseGenerator {
             // Make sure that the cases directory exists first.
             File f = new File(absPath);
             if (!f.exists()) {
-                String msg = new StringBuffer(absPath)
+                String msg = new StringBuilder(absPath)
                         .append(" Does not exist.")
                         .toString();
                 throw new GeneratorException(msg);
@@ -245,7 +245,7 @@ final class TestCaseGenerator {
             f = new File(absPath);
             if (!f.exists()) {
                 if (!f.mkdirs()) {
-                    String msg = new StringBuffer(absPath)
+                    String msg = new StringBuilder(absPath)
                             .append(" could no be created.")
                             .toString();
                     throw new GeneratorException(msg);
@@ -287,7 +287,7 @@ final class TestCaseGenerator {
 
         // Make sure that the prefix is 'org.cdmckay.coffeedom'
         if (!name.startsWith(packageName)) {
-            String msg = new StringBuffer("Failed to create test case")
+            String msg = new StringBuilder("Failed to create test case")
                     .append("because ")
                     .append(name)
                     .append(" is not in the package ")
@@ -301,7 +301,7 @@ final class TestCaseGenerator {
         try {
             cls = Class.forName(name);
         } catch (Exception e) {
-            StringBuffer msg = new StringBuffer("Failed to load class,");
+            StringBuilder msg = new StringBuilder("Failed to load class,");
             msg.append("name=")
                     .append(name)
                     .append(",Exception class=")

@@ -67,7 +67,7 @@ import java.io.StringWriter;
 /**
  * Tests DocumentReader
  *
- * @author joe.bowbeer
+ * @author Joe Bowbeer
  */
 public class ReaderTest {
 
@@ -83,32 +83,30 @@ public class ReaderTest {
     public static void main(String args[]) throws Exception {
 
         /* XMLWriter for viewing SAX events. */
+        XMLWriter echoWriter = new XMLWriter();
 
-        XMLWriter echo = new XMLWriter();
-
-        /* Build document from xml file. */
-
+        /* Build document from XML file. */
         SAXBuilder builder = new SAXBuilder();
-        builder.setXMLFilter(echo);
+        builder.setXMLFilter(echoWriter);
         InputStream in = FilterTest.class.getResourceAsStream("test2.xml");
 
-        System.out.println(" -- SAXBuilder(test2.xml), echo by XMLWriter -- \n");
+        System.out.println(" -- SAXBuilder(test2.xml), echoed by XMLWriter -- \n");
         Document doc = builder.build(in);
 
         System.out.println(" -- DocumentReader(doc) output by XMLWriter --\n");
         XMLReader parser = new DocumentReader(doc);
-        echo.setParent(parser);
+        echoWriter.setParent(parser);
         StringWriter writer = new StringWriter();
-        parser = new XMLWriter(echo, writer);
+        parser = new XMLWriter(echoWriter, writer);
         parser.parse((InputSource) null);
 
         /* Reconstitute document from regurgitated string. */
 
         builder = new SAXBuilder();
-        builder.setXMLFilter(echo);
+        builder.setXMLFilter(echoWriter);
         String xml = writer.toString();
 
-        System.out.println(" -- xml string--\n");
+        System.out.println(" -- XML string --\n");
         doc = builder.build(new StringReader(xml));
 
         System.out.println(" -- SAXBuilder(xml) output by XMLOutputter --\n");

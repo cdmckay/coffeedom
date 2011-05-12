@@ -93,12 +93,6 @@ public class XMLFilterBase
         extends XMLFilterImpl
         implements LexicalHandler {
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Constructors.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Construct an XML filter with no parent.
      *
@@ -106,29 +100,22 @@ public class XMLFilterBase
      * before you start a parse or do any configuration with
      * setFeature or setProperty.</p>
      *
-     * @see org.xml.sax.XMLReader#setFeature
-     * @see org.xml.sax.XMLReader#setProperty
+     * @see org.xml.sax.XMLReader#setFeature(String, boolean)
+     * @see org.xml.sax.XMLReader#setProperty(String, Object)
      */
     public XMLFilterBase() {
     }
-
 
     /**
      * Create an XML filter with the specified parent.
      *
      * <p>Use the XMLReader provided as the source of events.</p>
      *
-     * @param xmlreader The parent in the filter chain.
+     * @param parent The parent in the filter chain.
      */
     public XMLFilterBase(XMLReader parent) {
         super(parent);
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Convenience methods.
-    ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Start a new element without a qname or attributes.
@@ -142,7 +129,7 @@ public class XMLFilterBase
      * @param localName The element's local name.
      * @exception org.xml.sax.SAXException If a filter
      *            further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
     public void startElement(String uri, String localName)
             throws SAXException {

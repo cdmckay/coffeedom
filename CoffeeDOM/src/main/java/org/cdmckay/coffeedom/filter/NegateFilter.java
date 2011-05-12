@@ -98,6 +98,6 @@ final class NegateFilter
     }
 
     public String toString() {
-        return new StringBuffer(64).append("[NegateFilter: ").append(filter.toString()).append("]").toString();
+        return new StringBuilder(64).append("[NegateFilter: ").append(filter.toString()).append("]").toString();
     }
 }

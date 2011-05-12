@@ -71,7 +71,7 @@ public class IllegalTargetException
      * @param reason <code>String</code> message or reason target is illegal.
      */
     IllegalTargetException(String target, String reason) {
-        super(new StringBuffer().append("The target \"").append(target)
+        super(new StringBuilder().append("The target \"").append(target)
                 .append("\" is not legal for CoffeeDOM/XML Processing Instructions: ").append(reason).append(".")
                 .toString());
     }

@@ -924,7 +924,7 @@ public class SAXBuilder {
      * @throws MalformedURLException if there's a problem constructing a URL
      */
     private static URL fileToURL(File file) throws MalformedURLException {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String path = file.getAbsolutePath();
 
         // Convert non-URL style file separators

@@ -259,7 +259,7 @@ public class Text
      * @return <code>String</code> - information about this node.
      */
     public String toString() {
-        return new StringBuffer(64).append("[Text: ").append(getText()).append("]").toString();
+        return new StringBuilder(64).append("[Text: ").append(getText()).append("]").toString();
     }
 
 }
