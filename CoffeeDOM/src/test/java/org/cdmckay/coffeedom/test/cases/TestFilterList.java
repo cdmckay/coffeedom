@@ -141,14 +141,14 @@ public final class TestFilterList
     }
 
     public void test_TCM__int_hashCode() {
-        List<Content> contents1 = foo.getContent();
+        List<Content> contents1 = foo.getContents();
         List<Content> contents2 = new ArrayList<Content>();
         contents2.addAll(contents1);
         assertEquals("bad hashcode", contents2.hashCode(), contents1.hashCode());
     }
 
     public void test_TCM__boolean_equals_Object() {
-        List<Content> contents1 = foo.getContent();
+        List<Content> contents1 = foo.getContents();
         List<Content> contents2 = new ArrayList<Content>();
         contents2.addAll(contents1);
         assertTrue("bad equals", contents1.equals(contents2));
@@ -166,7 +166,7 @@ public final class TestFilterList
         assertEquals("wrong result from indexOf", -1, children.indexOf(foo));
         assertEquals("wrong result from indexOf", -1, children.indexOf(text1));
 
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         assertEquals("wrong result from indexOf", 0, content.indexOf(text1));
         assertEquals("wrong result from indexOf", 1, content.indexOf(bar));
         assertEquals("wrong result from indexOf", 2, content.indexOf(text2));
@@ -187,7 +187,7 @@ public final class TestFilterList
         assertEquals("wrong result from lastIndexOf", -1, children.lastIndexOf(text3));
         assertEquals("wrong result from lastIndexOf", -1, children.lastIndexOf(new Integer(17)));
 
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         assertEquals("wrong result from lastIndexOf", 0, content.lastIndexOf(text1));
         assertEquals("wrong result from lastIndexOf", 1, content.lastIndexOf(bar));
         assertEquals("wrong result from lastIndexOf", 2, content.lastIndexOf(text2));
@@ -206,7 +206,7 @@ public final class TestFilterList
         assertEquals("wrong element from get", baz, children.get(1));
         assertEquals("wrong element from get", quux, children.get(2));
 
-        List content = foo.getContent();
+        List content = foo.getContents();
         assertEquals("wrong element from get", text1, content.get(0));
         assertEquals("wrong element from get", bar, content.get(1));
         assertEquals("wrong element from get", text2, content.get(2));
@@ -240,7 +240,7 @@ public final class TestFilterList
 
     public void test_TCM__Object_set_int_Object() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         Element blah = new Element("blah");
         Text text5 = new Text("this was bar");
@@ -297,7 +297,7 @@ public final class TestFilterList
 
     public void test_TCM__void_add_int_Object() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         Element blah = new Element("blah");
         Text text5 = new Text("this is before bar");
@@ -358,7 +358,7 @@ public final class TestFilterList
 
     public void test_TCM__boolean_add_Object() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         Element blah = new Element("blah");
         Text text5 = new Text("this is last");
@@ -400,7 +400,7 @@ public final class TestFilterList
 
     public void testModification() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         modifyFoo();
 
@@ -432,7 +432,7 @@ public final class TestFilterList
         // Test size on lists.
         List<Element> children = foo.getChildren();
         assertEquals("wrong size", 3, children.size());
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         assertEquals("wrong size", 8, content.size());
 
         // Modify
@@ -448,14 +448,14 @@ public final class TestFilterList
         // Test size on newly-created lists.
         children = foo.getChildren();
         assertEquals("wrong size", 1, children.size());
-        content = foo.getContent();
+        content = foo.getContents();
         assertEquals("wrong size", 7, content.size());
     }
 
     public void testConcurrentModification() {
         // Get lists.
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         // Get iterators.
         Iterator iterator1 = children.iterator();
         Iterator iterator2 = content.iterator();
@@ -510,7 +510,7 @@ public final class TestFilterList
     // Modify "foo" a bit.
     private void modifyFoo() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         // \n, bar, \n, baz, \n, comment, quux, \n
 
         children.remove(1); // remove baz
@@ -523,7 +523,7 @@ public final class TestFilterList
         assertEquals("wrong size", 8, content.size());
         // \n, comment2, bar, \n, \n, comment, quux, \n
 
-        content = foo.getContent();
+        content = foo.getContents();
 
         content.remove(3); // remove \n
         assertEquals("wrong size", 2, children.size());
@@ -539,7 +539,7 @@ public final class TestFilterList
 
     public void test_TCM__ArrayObject_toArray() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         Object[] childrenArray = children.toArray();
         Object[] contentArray = content.toArray();
@@ -553,7 +553,7 @@ public final class TestFilterList
 
     public void test_TCM__ArrayObject_toArray_ArrayObject() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         // These arrays are big enough, and don't need to be expanded.
         Object[] childrenArray = new Object[children.size()];
@@ -596,7 +596,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_contains_Object() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Element> children = foo.getChildren();
 
         assertTrue("bad contains", !content.contains(foo));
@@ -625,7 +625,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__void_clear() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Element> children = foo.getChildren();
 
         children.clear();
@@ -655,7 +655,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__Object_remove_int() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Element> children = foo.getChildren();
 
         // \n, bar, \n, baz, \n, comment, quux, \n
@@ -702,7 +702,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_remove_Object() {
-        List content = foo.getContent();
+        List content = foo.getContents();
         List children = foo.getChildren();
 
         // contents: \n, bar, \n, baz, \n, comment, quux, \n
@@ -748,7 +748,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_containsAll_Collection() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Content> contentList = new ArrayList<Content>();
         contentList.add(quux);
         contentList.add(baz);
@@ -775,7 +775,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_addAll_Collection() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Content> addList1 = new ArrayList<Content>();
         addList1.add(comment2);
         addList1.add(comment3);
@@ -822,7 +822,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_addAll_int_Collection() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Content> addList1 = new ArrayList<Content>();
         addList1.add(comment2);
         addList1.add(comment3);
@@ -869,7 +869,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_removeAll_Collection() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Content> removeList1 = new ArrayList<Content>();
         removeList1.add(text4);
         removeList1.add(comment);
@@ -898,7 +898,7 @@ public final class TestFilterList
     }
 
     public void test_TCM__boolean_retainAll_Collection() {
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
         List<Content> retainList1 = new ArrayList<Content>();
         retainList1.add(text3);
         retainList1.add(quux);
@@ -926,7 +926,7 @@ public final class TestFilterList
 
     public void test_TCM__List_subList_int_int() {
         List<Element> children = foo.getChildren();
-        List<Content> content = foo.getContent();
+        List<Content> content = foo.getContents();
 
         List<Content> contentSubList = content.subList(3, 7);    // baz, text3, comment, quux
         contentSubList.add(comment2);
@@ -980,7 +980,7 @@ public final class TestFilterList
         assertFalse("hasPrevious is true", iter.hasPrevious());
         assertTrue("hasNext is false", iter.hasNext());
 
-        List content = foo.getContent();
+        List content = foo.getContents();
         ListIterator iter2 = content.listIterator(1);
 
         // next
@@ -1065,7 +1065,7 @@ public final class TestFilterList
         assertTrue("hasNext is false", iter.hasNext());
         assertTrue("hasNext is false", iter.hasNext());
 
-        List content = foo.getContent();
+        List content = foo.getContents();
         ListIterator iter2 = content.listIterator(1);
 
         // next
@@ -1118,13 +1118,13 @@ public final class TestFilterList
         el.setAttributes(attributes2);
         assertEquals("wrong list size after replacing attribute", 2, attributes1.size());
 
-        List<Content> contents1 = el.getContent();
+        List<Content> contents1 = el.getContents();
         el.addContent(new Element("test"));
         assertEquals("wrong list size after adding content", 1, contents1.size());
         List<Content> contents2 = new ArrayList<Content>();
         contents2.add(new Element("test"));
         contents2.add(new Element("test2"));
-        el.setContent(contents2);
+        el.setContents(contents2);
         contents1.size();
         assertEquals("wrong list size after replacing content", 2, contents1.size());
     }

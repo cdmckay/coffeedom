@@ -84,7 +84,7 @@ class DescendantIterator
         if (parent == null) {
             throw new IllegalArgumentException("parent parameter was null");
         }
-        this.iterator = parent.getContent().iterator();
+        this.iterator = parent.getContents().iterator();
     }
 
     /**
@@ -135,7 +135,7 @@ class DescendantIterator
 
         Content child = iterator.next();
         if (child instanceof Element) {
-            nextIterator = ((Element) child).getContent().iterator();
+            nextIterator = ((Element) child).getContents().iterator();
         }
         return child;
     }

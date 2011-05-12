@@ -77,7 +77,7 @@ public interface Parent
      *
      * @return number of children
      */
-    int getContentSize();
+    int getContentsSize();
 
     /**
      * Returns the index of the supplied child in the content list, or -1 if not a child of this parent.
@@ -101,7 +101,7 @@ public interface Parent
      *
      * @return list of cloned child content
      */
-    List<Content> cloneContent();
+    List<Content> cloneContents();
 
     /**
      * Returns the child at the given index.
@@ -125,7 +125,7 @@ public interface Parent
      * @return a list of the content of the parent
      * @throws IllegalStateException if parent is a Document and the root element is not set
      */
-    List<Content> getContent();
+    List<Content> getContents();
 
     /**
      * Returns as a {@link java.util.List} the content of this parent that matches the supplied filter. The returned
@@ -140,14 +140,14 @@ public interface Parent
      * @return a list of the content of the parent matching the filter
      * @throws IllegalStateException if parent is a Document and the root element is not set
      */
-    List<Content> getContent(Filter filter);
+    List<Content> getContents(Filter filter);
 
     /**
      * Removes all content from this parent and returns the detached children.
      *
      * @return list of the old content detached from this parent
      */
-    List<Content> removeContent();
+    List<Content> removeContents();
 
     /**
      * Removes from this parent all child content matching the given filter and returns a list of the detached
@@ -156,7 +156,7 @@ public interface Parent
      * @param filter filter to apply
      * @return list of the detached children matching the filter
      */
-    List<Content> removeContent(Filter filter);
+    List<Content> removeContents(Filter filter);
 
     /**
      * Removes a single child node from the content list.

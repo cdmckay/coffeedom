@@ -375,7 +375,7 @@ public class Element
     public String getValue() {
         final StringBuffer buffer = new StringBuffer();
 
-        for (Object o : getContent()) {
+        for (Object o : getContents()) {
             final Content child = (Content) o;
             if (child instanceof Element || child instanceof Text) {
                 buffer.append(child.getValue());
@@ -394,7 +394,7 @@ public class Element
         return parent instanceof Document;
     }
 
-    public int getContentSize() {
+    public int getContentsSize() {
         return contents.size();
     }
 
@@ -403,7 +403,7 @@ public class Element
     }
 
 //    private int indexOf(int start, Filter filter) {
-//        int size = getContentSize();
+//        int size = getContentsSize();
 //        for (int i = start; i < size; i++) {
 //            if (filter.matches(getContent(i))) {
 //                return i;
@@ -416,7 +416,7 @@ public class Element
     /**
      * Returns the textual content directly held under this element as a string. This includes all text within this
      * single element, including whitespace and CDATA sections if they exist. It's essentially the concatenation of all
-     * {@link Text} and {@link CDATA} nodes returned by {@link #getContent}. The call does not recurse into child
+     * {@link Text} and {@link CDATA} nodes returned by {@link #getContents}. The call does not recurse into child
      * elements. If no textual value exists for the element, an empty string is returned.
      *
      * @return text content for this element, or empty string if none
@@ -597,7 +597,7 @@ public class Element
      *         <code>{@link Element}</code>, <code>{@link Comment}</code>, <code>{@link ProcessingInstruction}</code>,
      *         <code>{@link CDATA}</code>, and <code>{@link EntityRef}</code> objects.
      */
-    public List<Content> getContent() {
+    public List<Content> getContents() {
         return contents;
     }
 
@@ -609,7 +609,7 @@ public class Element
      * @param filter <code>Filter</code> to apply
      * @return <code>List</code> - filtered Element content
      */
-    public List<Content> getContent(final Filter filter) {
+    public List<Content> getContents(final Filter filter) {
         return contents.getView(filter);
     }
 
@@ -618,7 +618,7 @@ public class Element
      *
      * @return list of the old children detached from this parent
      */
-    public List<Content> removeContent() {
+    public List<Content> removeContents() {
         final List<Content> oldContent = new ArrayList<Content>(contents);
         contents.clear();
         return oldContent;
@@ -630,7 +630,7 @@ public class Element
      * @param filter filter to select which content to remove
      * @return list of the old children detached from this parent
      */
-    public List<Content> removeContent(final Filter filter) {
+    public List<Content> removeContents(final Filter filter) {
         final List<Content> oldContent = new ArrayList<Content>();
         final Iterator<Content> it = contents.getView(filter).iterator();
         while (it.hasNext()) {
@@ -647,20 +647,20 @@ public class Element
      * <code>ProcessingInstruction</code>, and <code>EntityRef</code>. <p/> <p> When all objects in the supplied List
      * are legal and before the new content is added, all objects in the old content will have their parentage set to
      * null (no parent) and the old content list will be cleared. This has the effect that any active list (previously
-     * obtained with a call to {@link #getContent} or {@link #getChildren}) will also change to reflect the new content.
+     * obtained with a call to {@link #getContents} or {@link #getChildren}) will also change to reflect the new content.
      *  In addition, all objects in the supplied List will have their parentage set to this element, but the List itself
      * will not be "live" and further removals and additions will have no effect on this elements content. If the user
      * wants to continue working with a "live" list, then a call to setContent should be followed by a call to {@link
-     * #getContent} or {@link #getChildren} to obtain a "live" version of the content. </p> <p/> <p> Passing a null or
+     * #getContents} or {@link #getChildren} to obtain a "live" version of the content. </p> <p/> <p> Passing a null or
      * empty List clears the existing content. </p> <p/> <p> In event of an exception the original content will be
      * unchanged and the objects in the supplied content will be unaltered. </p>
      *
-     * @param newContent <code>Collection</code> of content to set
+     * @param newContents <code>Collection</code> of content to set
      * @return this element modified
      * @throws IllegalAddException if the List contains objects of illegal types or with existing parentage.
      */
-    public Element setContent(final Collection<? extends Content> newContent) {
-        contents.clearAndSet(newContent);
+    public Element setContents(final Collection<? extends Content> newContents) {
+        contents.clearAndSet(newContents);
         return this;
     }
 
@@ -684,15 +684,15 @@ public class Element
      * Replace the child at the given index whith the supplied collection. <p> In event of an exception the original
      * content will be unchanged and the content in the supplied collection will be unaltered. </p>
      *
-     * @param index      - index of child to replace.
-     * @param newContent - <code>Collection</code> of content to replace child.
+     * @param index       index of child to replace.
+     * @param newContents <code>Collection</code> of content to replace child.
      * @return object on which this method was invoked
      * @throws IllegalAddException       if the collection contains objects of illegal types.
      * @throws IndexOutOfBoundsException if index is negative or greater than the current number of children.
      */
-    public Parent setContent(final int index, final Collection<? extends Content> newContent) {
+    public Parent setContents(final int index, final Collection<? extends Content> newContents) {
         contents.remove(index);
-        contents.addAll(index, newContent);
+        contents.addAll(index, newContents);
         return this;
     }
 
@@ -725,12 +725,12 @@ public class Element
      * Appends all children in the given collection to the end of the content list.  In event of an exception during add
      * the original content will be unchanged and the objects in the supplied collection will be unaltered.
      *
-     * @param newContent <code>Collection</code> of content to append
+     * @param newContents <code>Collection</code> of content to append
      * @return the element on which the method was called
      * @throws IllegalAddException if any item in the collection already has a parent or is of an inappropriate type.
      */
-    public Element addContent(final Collection<? extends Content> newContent) {
-        contents.addAll(newContent);
+    public Element addContents(final Collection<? extends Content> newContents) {
+        contents.addAll(newContents);
         return this;
     }
 
@@ -752,20 +752,20 @@ public class Element
      * Inserts the content in a collection into the content list at the given index.  In event of an exception the
      * original content will be unchanged and the objects in the supplied collection will be unaltered.
      *
-     * @param index      location for adding the collection
-     * @param newContent <code>Collection</code> of content to insert
+     * @param index       location for adding the collection
+     * @param newContents <code>Collection</code> of content to insert
      * @return the parent on which the method was called
      * @throws IndexOutOfBoundsException if index is negative or beyond the current number of children
      * @throws IllegalAddException       if any item in the collection already has a parent or is of an inappropriate
      *                                   type.
      */
-    public Element addContent(final int index, final Collection<? extends Content> newContent) {
-        contents.addAll(index, newContent);
+    public Element addContents(final int index, final Collection<? extends Content> newContents) {
+        contents.addAll(index, newContents);
         return this;
     }
 
-    public List<Content> cloneContent() {
-        final int size = getContentSize();
+    public List<Content> cloneContents() {
+        final int size = getContentsSize();
         final List<Content> list = new ArrayList<Content>(size);
         for (int i = 0; i < size; i++) {
             final Content child = getContent(i);
@@ -797,10 +797,10 @@ public class Element
      * If the supplied child is legal content for this parent and before it is added, all content in the current content
      * list will be cleared and all current children will have their parentage set to null.
      * <p/>
-     * This has the effect that any active list (previously obtained with a call to one of the {@link #getContent}
+     * This has the effect that any active list (previously obtained with a call to one of the {@link #getContents}
      * methods will also change to reflect the new content.  In addition, all content in the supplied collection will
      * have their parentage set to this parent.  If the user wants to continue working with a <b>"live"</b> list of this
-     * parent's child, then a call to setContent should be followed by a call to one of the {@link #getContent} methods
+     * parent's child, then a call to setContent should be followed by a call to one of the {@link #getContents} methods
      * to obtain a <b>"live"</b> version of the children.
      * <p/>
      * Passing a null child clears the existing content.

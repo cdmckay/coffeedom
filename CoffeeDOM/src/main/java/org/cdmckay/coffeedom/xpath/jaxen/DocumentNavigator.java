@@ -145,9 +145,9 @@ public class DocumentNavigator
 
     public Iterator getChildAxisIterator(Object contextNode) {
         if (contextNode instanceof Element) {
-            return ((Element) contextNode).getContent().iterator();
+            return ((Element) contextNode).getContents().iterator();
         } else if (contextNode instanceof Document) {
-            return ((Document) contextNode).getContent().iterator();
+            return ((Document) contextNode).getContents().iterator();
         }
 
         return JaxenConstants.EMPTY_ITERATOR;
@@ -393,7 +393,7 @@ public class DocumentNavigator
         Element element = (Element) object;
         StringBuilder builder = new StringBuilder();
 
-        for (Content content : element.getContent()) {
+        for (Content content : element.getContents()) {
             if (content instanceof Text) {
                 builder.append(((Text) content).getText());
             } else if (content instanceof Element) {

@@ -330,7 +330,7 @@ public class XMLOutputter
         // Print out root element, as well as any root level
         // comments and processing instructions,
         // starting with no indentation
-        List<Content> contents = doc.getContent();
+        List<Content> contents = doc.getContents();
         for (Content content : contents) {
             if (content instanceof Element) {
                 printElement(out, doc.getRootElement(), 0, createNamespaceStack());
@@ -396,7 +396,7 @@ public class XMLOutputter
      * @throws java.io.IOException
      */
     public void outputElementContent(Element element, Writer out) throws IOException {
-        List<Content> contents = element.getContent();
+        List<Content> contents = element.getContents();
         printContentRange(out, contents, 0, contents.size(), 0, createNamespaceStack());
         out.flush();
     }
@@ -809,7 +809,7 @@ public class XMLOutputter
     protected void printElement(Writer out, Element element, int level, NamespaceStack namespaces) throws IOException {
 
         List<Attribute> attributes = element.getAttributes();
-        List<Content> contents = element.getContent();
+        List<Content> contents = element.getContents();
 
         // Check for xml:space and adjust format settings
         String space = null;

@@ -64,7 +64,7 @@ import java.util.EnumSet;
  * example to view all Text and CDATA nodes in the content of element x.
  * <pre><code>
  *      Filter filter = new ContentFilter(EnumSet.of(ContentType.Text, ContentType.CDATA));
- *      List&lt;Content&gt; content = x.getContent(filter);
+ *      List&lt;Content&gt; content = x.getContents(filter);
  * </code></pre>
  * <p/>
  * For those who don't like enum sets, set methods are provided as an alternative.  For example to allow everything
@@ -72,7 +72,7 @@ import java.util.EnumSet;
  * <pre><code>
  *      Filter filter =  new ContentFilter();
  *      filter.setCommentVisible(false);
- *      List&lt;Content&gt; content = x.getContent(filter);
+ *      List&lt;Content&gt; content = x.getContents(filter);
  * </code></pre>
  * <p/>
  * The default is to allow all valid CoffeeDOM objects.

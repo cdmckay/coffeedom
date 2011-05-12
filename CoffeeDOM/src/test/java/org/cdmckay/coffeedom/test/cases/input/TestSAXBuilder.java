@@ -249,7 +249,7 @@ public final class TestSAXBuilder
         doc = builder.build(file);
         assertTrue("got entity text", !(doc.getRootElement().getText().indexOf("simple entity") > 1));
         assertTrue("got entity text", !(doc.getRootElement().getText().indexOf("another simple entity") > 1));
-        List content = doc.getRootElement().getContent();
+        List content = doc.getRootElement().getContents();
         assertTrue("didn't get EntityRef for unexpanded entities",
                 content.get(0) instanceof EntityRef);
         assertTrue("didn't get EntityRef for unexpanded entities",
@@ -269,7 +269,7 @@ public final class TestSAXBuilder
         doc = builder.build(file);
         assertTrue("got entity text", !(doc.getRootElement().getText().indexOf("simple entity") > 1));
         assertTrue("got entity text", !(doc.getRootElement().getText().indexOf("another simple entity") > 1));
-        content = doc.getRootElement().getContent();
+        content = doc.getRootElement().getContents();
         assertTrue("didn't get EntityRef for unexpanded entities",
                 content.get(0) instanceof EntityRef);
         assertTrue("didn't get EntityRef for unexpanded entities",
@@ -361,8 +361,8 @@ public final class TestSAXBuilder
         builder.setExpandEntities(false);
         doc = builder.build(file);
 
-        EntityRef internal = (EntityRef) doc.getRootElement().getContent().get(0);
-        EntityRef external = (EntityRef) doc.getRootElement().getContent().get(6);
+        EntityRef internal = (EntityRef) doc.getRootElement().getContents().get(0);
+        EntityRef external = (EntityRef) doc.getRootElement().getContents().get(6);
         assertNotNull("didn't get EntityRef for unexpanded internal entity", internal);
         assertNotNull("didn't get EntityRef for unexpanded external entity", external);
         assertTrue("didn't get local entity declaration in internal subset",

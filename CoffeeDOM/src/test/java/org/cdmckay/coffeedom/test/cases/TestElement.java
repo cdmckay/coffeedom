@@ -503,7 +503,7 @@ public final class TestElement extends junit.framework.TestCase {
         element.addContent(comm);
 
         assertTrue("couldn't remove comment content", element.removeContent(comm));
-        assertTrue("didn't remove comment content", element.getContent().equals(Collections.EMPTY_LIST));
+        assertTrue("didn't remove comment content", element.getContents().equals(Collections.EMPTY_LIST));
     }
 
     /**
@@ -515,7 +515,7 @@ public final class TestElement extends junit.framework.TestCase {
         element.addContent(child);
 
         assertTrue("couldn't remove element content", element.removeContent(child));
-        assertTrue("didn't remove element content", element.getContent().equals(Collections.EMPTY_LIST));
+        assertTrue("didn't remove element content", element.getContents().equals(Collections.EMPTY_LIST));
     }
 
     /**
@@ -527,7 +527,7 @@ public final class TestElement extends junit.framework.TestCase {
         element.addContent(ent);
 
         assertTrue("couldn't remove entity content", element.removeContent(ent));
-        assertTrue("didn't remove entity content", element.getContent().equals(Collections.EMPTY_LIST));
+        assertTrue("didn't remove entity content", element.getContents().equals(Collections.EMPTY_LIST));
     }
 
     /**
@@ -539,7 +539,7 @@ public final class TestElement extends junit.framework.TestCase {
         element.addContent(pi);
 
         assertTrue("couldn't remove entity content", element.removeContent(pi));
-        assertTrue("didn't remove entity content", element.getContent().equals(Collections.EMPTY_LIST));
+        assertTrue("didn't remove entity content", element.getContents().equals(Collections.EMPTY_LIST));
     }
 
     /**
@@ -684,7 +684,7 @@ public final class TestElement extends junit.framework.TestCase {
      */
     public void test_TCM__List_getContent() {
         Element element = new Element("el");
-        assertEquals("did not return Collections.EMPTY_LIST on empty element", Collections.EMPTY_LIST, element.getContent());
+        assertEquals("did not return Collections.EMPTY_LIST on empty element", Collections.EMPTY_LIST, element.getContents());
         Namespace ns = Namespace.getNamespace("urn:hogwarts");
         Element child1 = new Element("child", ns);
         child1.setAttribute(new Attribute("name", "first"));
@@ -708,7 +708,7 @@ public final class TestElement extends junit.framework.TestCase {
         Text text = new Text("finally a new wand!");
         element.addContent(text);
 
-        List list = element.getContent();
+        List list = element.getContents();
 
         assertEquals("incorrect number of content items", 8, list.size());
         assertEquals("wrong child element", child1, list.get(0));
@@ -781,7 +781,7 @@ public final class TestElement extends junit.framework.TestCase {
                 (Namespace) additional.get(1),
                 Namespace.getNamespace("bar", "http://test2"));
 
-        List list = clone.getContent();
+        List list = clone.getContents();
 
         //finally the test
 
@@ -791,23 +791,23 @@ public final class TestElement extends junit.framework.TestCase {
 
         assertEquals("wrong nested element", "firstChild", deepClone.getName());
         //comment
-        assertTrue("deep clone comment not a clone", deepClone.getContent().get(0) != comment);
+        assertTrue("deep clone comment not a clone", deepClone.getContents().get(0) != comment);
         comment = null;
-        assertEquals("incorrect deep clone comment", "hi", ((Comment) deepClone.getContent().get(0)).getText());
+        assertEquals("incorrect deep clone comment", "hi", ((Comment) deepClone.getContents().get(0)).getText());
         //CDATA
-        assertTrue("deep clone CDATA not a clone", ((CDATA) deepClone.getContent().get(1)).getText().equals(cdata.getText()));
+        assertTrue("deep clone CDATA not a clone", ((CDATA) deepClone.getContents().get(1)).getText().equals(cdata.getText()));
         cdata = null;
-        assertEquals("incorrect deep clone CDATA", "gotcha", ((CDATA) deepClone.getContent().get(1)).getText());
+        assertEquals("incorrect deep clone CDATA", "gotcha", ((CDATA) deepClone.getContents().get(1)).getText());
         //PI
-        assertTrue("deep clone PI not a clone", deepClone.getContent().get(2) != pi);
+        assertTrue("deep clone PI not a clone", deepClone.getContents().get(2) != pi);
         pi = null;
-        assertEquals("incorrect deep clone PI", "do=something", ((ProcessingInstruction) deepClone.getContent().get(2)).getData());
+        assertEquals("incorrect deep clone PI", "do=something", ((ProcessingInstruction) deepClone.getContents().get(2)).getData());
         //entity
-        assertTrue("deep clone Entity not a clone", deepClone.getContent().get(3) != entity);
+        assertTrue("deep clone Entity not a clone", deepClone.getContents().get(3) != entity);
         entity = null;
-        assertEquals("incorrect deep clone EntityRef", "wizards", ((EntityRef) deepClone.getContent().get(3)).getName());
+        assertEquals("incorrect deep clone EntityRef", "wizards", ((EntityRef) deepClone.getContents().get(3)).getName());
         //text
-        assertEquals("incorrect deep clone test", "finally a new wand!", ((Text) deepClone.getContent().get(4)).getText());
+        assertEquals("incorrect deep clone test", "finally a new wand!", ((Text) deepClone.getContents().get(4)).getText());
     }
 
     /**
@@ -878,7 +878,7 @@ public final class TestElement extends junit.framework.TestCase {
         Comment comm = new Comment("a comment");
         element.addContent(comm);
 
-        assertEquals("didn't add comment content", element.getContent().get(0), comm);
+        assertEquals("didn't add comment content", element.getContents().get(0), comm);
         try {
             comm = null;
             element.addContent(comm);
@@ -957,7 +957,7 @@ public final class TestElement extends junit.framework.TestCase {
         try {
             String data = null;
             element.addContent(data);
-            List content = element.getContent();
+            List content = element.getContents();
         } catch (IllegalAddException e) {
         } catch (NullPointerException e) {
             fail("didn't handle null String content");
@@ -1324,7 +1324,7 @@ public final class TestElement extends junit.framework.TestCase {
      */
     public void test_TCM__OrgJdomElement_setContent_List() {
         Element element = new Element("el");
-        assertEquals("did not return Collections.EMPTY_LIST on empty element", Collections.EMPTY_LIST, element.getContent());
+        assertEquals("did not return Collections.EMPTY_LIST on empty element", Collections.EMPTY_LIST, element.getContents());
         Namespace ns = Namespace.getNamespace("urn:hogwarts");
         Element child1 = new Element("child", ns);
 
@@ -1351,8 +1351,8 @@ public final class TestElement extends junit.framework.TestCase {
         Text text = new Text("finally a new wand!");
         list.add(text);
 
-        element.setContent(list);
-        List contentList = element.getContent();
+        element.setContents(list);
+        List contentList = element.getContents();
 
         assertEquals("incorrect number of content items", 8, contentList.size());
         assertEquals("wrong child element", child1, contentList.get(0));
@@ -1388,8 +1388,8 @@ public final class TestElement extends junit.framework.TestCase {
 //        assertEquals("wrong text after failed add", text, contentList.get(7));
 
         //nulls should reset the list
-        element.removeContent();
-        assertTrue("didn't reset mixed content List", element.getContent().isEmpty());
+        element.removeContents();
+        assertTrue("didn't reset mixed content List", element.getContents().isEmpty());
     }
 
     /**
@@ -1403,11 +1403,11 @@ public final class TestElement extends junit.framework.TestCase {
 
         element.setText("it's all gone");
         assertEquals("incorrect text returned", "it's all gone", element.getText());
-        assertEquals("incorrect number of content items found", 1, element.getContent().size());
+        assertEquals("incorrect number of content items found", 1, element.getContents().size());
 
 
         element.setText(null);
-        assertTrue("didn't clear content with null text", element.getContent().isEmpty());
+        assertTrue("didn't clear content with null text", element.getContents().isEmpty());
 
         //bad string test
 

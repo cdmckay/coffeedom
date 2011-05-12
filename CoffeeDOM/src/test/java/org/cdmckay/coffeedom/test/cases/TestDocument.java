@@ -79,7 +79,7 @@ public final class TestDocument extends junit.framework.TestCase {
         Document doc = new Document(list);
 
         // Get a live list back
-        list = doc.getContent();
+        list = doc.getContents();
         assertEquals("incorrect root element returned", element, doc.getRootElement());
 
         //no root element
@@ -140,7 +140,7 @@ public final class TestDocument extends junit.framework.TestCase {
         list.add(comment);
         Document doc = new Document(list);
         // Get a live list back
-        list = doc.getContent();
+        list = doc.getContents();
         assertEquals("incorrect root element returned", element, doc.getRootElement());
         assertEquals("incorrect doc type returned", docType, doc.getDocType());
 
@@ -255,7 +255,7 @@ public final class TestDocument extends junit.framework.TestCase {
         assertTrue("incorrect comment removed", !doc.removeContent(new Comment("hi")));
         assertTrue("didn't remove comment", doc.removeContent(comment));
 
-        assertTrue("comment not removed", doc.getContent().size() == 1);
+        assertTrue("comment not removed", doc.getContents().size() == 1);
     }
 
     /**
@@ -272,7 +272,7 @@ public final class TestDocument extends junit.framework.TestCase {
         assertTrue("incorrect pi removed", !doc.removeContent(new ProcessingInstruction("hi", "there")));
         assertTrue("didn't remove pi", doc.removeContent(pi));
 
-        assertTrue("PI not removed", doc.getContent().size() == 1);
+        assertTrue("PI not removed", doc.getContents().size() == 1);
 
     }
 
@@ -341,32 +341,32 @@ public final class TestDocument extends junit.framework.TestCase {
         child2 = null;
         child1 = null;
 
-        List list = docClone.getRootElement().getContent();
+        List list = docClone.getRootElement().getContents();
 
         //finally the test
-        assertEquals("wrong comment", ((Comment) docClone.getContent().get(1)).getText(), "some comment");
+        assertEquals("wrong comment", ((Comment) docClone.getContents().get(1)).getText(), "some comment");
         assertEquals("wrong child element", ((Element) list.get(0)).getName(), "child");
         assertEquals("wrong child element", ((Element) list.get(1)).getName(), "child");
         Element deepClone = ((Element) list.get(0)).getChild("firstChild", Namespace.getNamespace("urn:hogwarts"));
 
         assertEquals("wrong nested element", "firstChild", deepClone.getName());
         //comment
-        assertTrue("deep clone comment not a clone", deepClone.getContent().get(0) != comment);
+        assertTrue("deep clone comment not a clone", deepClone.getContents().get(0) != comment);
         comment = null;
-        assertEquals("incorrect deep clone comment", "hi", ((Comment) deepClone.getContent().get(0)).getText());
+        assertEquals("incorrect deep clone comment", "hi", ((Comment) deepClone.getContents().get(0)).getText());
         //CDATA
 
-        assertEquals("incorrect deep clone CDATA", "gotcha", ((CDATA) deepClone.getContent().get(1)).getText());
+        assertEquals("incorrect deep clone CDATA", "gotcha", ((CDATA) deepClone.getContents().get(1)).getText());
         //PI
-        assertTrue("deep clone PI not a clone", deepClone.getContent().get(2) != pi);
+        assertTrue("deep clone PI not a clone", deepClone.getContents().get(2) != pi);
         pi = null;
-        assertEquals("incorrect deep clone PI", "do=something", ((ProcessingInstruction) deepClone.getContent().get(2)).getData());
+        assertEquals("incorrect deep clone PI", "do=something", ((ProcessingInstruction) deepClone.getContents().get(2)).getData());
         //entity
-        assertTrue("deep clone Entity not a clone", deepClone.getContent().get(3) != entity);
+        assertTrue("deep clone Entity not a clone", deepClone.getContents().get(3) != entity);
         entity = null;
-        assertEquals("incorrect deep clone Entity", "wizards", ((EntityRef) deepClone.getContent().get(3)).getName());
+        assertEquals("incorrect deep clone Entity", "wizards", ((EntityRef) deepClone.getContents().get(3)).getName());
         //text
-        assertEquals("incorrect deep clone test", "finally a new wand!", ((Text) deepClone.getContent().get(4)).getText());
+        assertEquals("incorrect deep clone test", "finally a new wand!", ((Text) deepClone.getContents().get(4)).getText());
 
 
     }
@@ -395,7 +395,7 @@ public final class TestDocument extends junit.framework.TestCase {
         Document doc = new Document(element);
         doc.addContent(comment);
         doc.addContent(comment2);
-        List content = doc.getContent();
+        List content = doc.getContents();
 
         assertEquals("wrong number of comments in List", 3, content.size());
         assertEquals("wrong comment", comment, content.get(1));
@@ -413,7 +413,7 @@ public final class TestDocument extends junit.framework.TestCase {
         Document doc = new Document(element);
         doc.addContent(pi);
         doc.addContent(pi2);
-        List content = doc.getContent();
+        List content = doc.getContents();
 
         assertEquals("wrong number of PI's in List", 3, content.size());
         assertEquals("wrong PI", pi, content.get(1));
@@ -513,7 +513,7 @@ public final class TestDocument extends junit.framework.TestCase {
     }
 
     /**
-     * Test getContent
+     * Test getContents
      */
     public void test_TCM__List_getContent() {
         Element element = new Element("element");
@@ -523,8 +523,8 @@ public final class TestDocument extends junit.framework.TestCase {
         list.add(element);
         list.add(comment);
         Document doc = new Document(list);
-        assertEquals("missing mixed content", list, doc.getContent());
-        assertEquals("wrong number of elements", 2, doc.getContent().size());
+        assertEquals("missing mixed content", list, doc.getContents());
+        assertEquals("wrong number of elements", 2, doc.getContents().size());
     }
 
     /**
@@ -543,9 +543,9 @@ public final class TestDocument extends junit.framework.TestCase {
 
         Document doc = new Document(element);
         doc.setContent(list);
-        assertEquals("wrong number of elements", 3, doc.getContent().size());
-        assertEquals("missing element", newElement, doc.getContent().get(0));
-        assertEquals("missing comment", comment, doc.getContent().get(1));
-        assertEquals("missing pi", pi, doc.getContent().get(2));
+        assertEquals("wrong number of elements", 3, doc.getContents().size());
+        assertEquals("missing element", newElement, doc.getContents().get(0));
+        assertEquals("missing comment", comment, doc.getContents().get(1));
+        assertEquals("missing pi", pi, doc.getContents().get(2));
     }
 }

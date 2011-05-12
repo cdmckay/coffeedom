@@ -6,7 +6,7 @@ import java.util.*;
 
 public final class FilterListRandomizer {
 
-    // True if we're checking Element.getChildren(), false if Element.getContent()
+    // True if we're checking Element.getChildren(), false if Element.getContents()
     private boolean elementsOnly;
 
     // All the children of the parent Element.
@@ -75,7 +75,7 @@ public final class FilterListRandomizer {
 
         // Points to the list of items available for testing.
         // If we're testing getChildren(), then sourceList will point to the Elements.
-        // If we're testing getContent(), then sourceList will
+        // If we're testing getContents(), then sourceList will
         // point to *all* the children.
         sourceList = elementsOnly ? elements : objects;
     }
@@ -138,7 +138,7 @@ public final class FilterListRandomizer {
         // Get the list to be tested from the parent Element.
         testList = elementsOnly
                 ? new ArrayList<Content>(parent.getChildren())
-                : parent.getContent();
+                : parent.getContents();
 
         // The two lists should *always* be equivalent from now on.
         checkLists();
@@ -833,7 +833,7 @@ public final class FilterListRandomizer {
         }
 
         if (elementsOnly) {
-            List<Content> contents = parent.getContent();
+            List<Content> contents = parent.getContents();
             System.out.println(" >> parent (size=" + contents.size() + "):");
             for (Content content : contents) {
                 System.out.println("        " + content);

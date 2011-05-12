@@ -6,7 +6,7 @@ import org.cdmckay.coffeedom.Element;
 import java.util.*;
 
 public final class FilterListIteratorRandomizer {
-    // True if we're checking Element.getChildren(), false if Element.getContent()
+    // True if we're checking Element.getChildren(), false if Element.getContents()
     private boolean elementsOnly;
 
     // Where to get test objects from - points to "objects" or "elements".
@@ -408,7 +408,7 @@ public final class FilterListIteratorRandomizer {
         }
 
         if (elementsOnly) {
-            List<Content> contents = parent.getContent();
+            List<Content> contents = parent.getContents();
             System.out.println(" >> parent (size=" + contents.size() + "):");
             for (Content content : contents) {
                 System.out.println("        " + content);

@@ -171,7 +171,7 @@ public class CoffeeDOMResult
             nodes = (List<Content>) result;
         } else {
             if ((result instanceof Document) && (!queried)) {
-                List<Content> contents = ((Document) result).getContent();
+                List<Content> contents = ((Document) result).getContents();
                 nodes = new ArrayList<Content>(contents.size());
 
                 while (!contents.isEmpty()) {
@@ -350,7 +350,7 @@ public class CoffeeDOMResult
          * @return a (possibly empty) list of CoffeeDOM nodes, detached from their parent.
          */
         private List<Content> getDetachedContent(Element element) {
-            List<Content> contents = element.getContent();
+            List<Content> contents = element.getContents();
             List<Content> nodes = new ArrayList<Content>(contents.size());
 
             while (!contents.isEmpty()) {

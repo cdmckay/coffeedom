@@ -142,7 +142,7 @@ public class DOMOutputter {
             domDoc = createDOMDocument(dt);
 
             // Add content
-            for (Content content : document.getContent()) {
+            for (Content content : document.getContents()) {
                 if (content instanceof Element) {
                     Element element = (Element) content;
                     org.w3c.dom.Element domElement = output(element, domDoc, namespaces);
@@ -295,7 +295,7 @@ public class DOMOutputter {
             }
 
             // Add content to the DOM element
-            for (Content content : element.getContent()) {
+            for (Content content : element.getContents()) {
 
                 if (content instanceof Element) {
                     Element e = (Element) content;

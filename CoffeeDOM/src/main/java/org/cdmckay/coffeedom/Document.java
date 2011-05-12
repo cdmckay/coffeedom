@@ -151,7 +151,7 @@ public class Document
         setContent(contents);
     }
 
-    public int getContentSize() {
+    public int getContentsSize() {
         return contents.size();
     }
 
@@ -167,7 +167,7 @@ public class Document
 //     * @return index of child, or -1 if none found.
 //     */
 //    private int indexOf(int start, Filter filter) {
-//        int size = getContentSize();
+//        int size = getContentsSize();
 //        for (int i = start; i < size; i++) {
 //            if (filter.matches(getContent(i))) {
 //                return i;
@@ -333,8 +333,8 @@ public class Document
         return this;
     }
 
-    public List<Content> cloneContent() {
-        int size = getContentSize();
+    public List<Content> cloneContents() {
+        int size = getContentsSize();
         List<Content> list = new ArrayList<Content>(size);
         for (int i = 0; i < size; i++) {
             Content child = getContent(i);
@@ -360,7 +360,7 @@ public class Document
      * @return All document content
      * @throws IllegalStateException if the root element hasn't been set
      */
-    public List<Content> getContent() {
+    public List<Content> getContents() {
         if (!hasRootElement()) {
             throw new IllegalStateException("Root element not set");
         }
@@ -376,7 +376,7 @@ public class Document
      * @return <code>List</code> - filtered Document content
      * @throws IllegalStateException if the root element hasn't been set
      */
-    public List<Content> getContent(Filter filter) {
+    public List<Content> getContents(Filter filter) {
         if (!hasRootElement()) {
             throw new IllegalStateException("Root element not set");
         }
@@ -388,7 +388,7 @@ public class Document
      *
      * @return list of the old children detached from this parent
      */
-    public List<Content> removeContent() {
+    public List<Content> removeContents() {
         List<Content> oldContents = new ArrayList<Content>(contents);
         contents.clear();
         return oldContents;
@@ -400,7 +400,7 @@ public class Document
      * @param filter filter to select which content to remove
      * @return list of the old children detached from this parent
      */
-    public List<Content> removeContent(Filter filter) {
+    public List<Content> removeContents(Filter filter) {
         List<Content> oldContents = new ArrayList<Content>();
         Iterator<Content> it = contents.getView(filter).iterator();
         while (it.hasNext()) {
@@ -416,11 +416,11 @@ public class Document
      * <code>Element</code>, <code>Comment</code>, and <code>ProcessingInstruction</code>. <p/> <p> When all objects in
      * the supplied List are legal and before the new content is added, all objects in the old content will have their
      * parentage set to null (no parent) and the old content list will be cleared. This has the effect that any active
-     * list (previously obtained with a call to {@link #getContent}) will also change to reflect the new content.  In
+     * list (previously obtained with a call to {@link #getContents}) will also change to reflect the new content.  In
      * addition, all objects in the supplied List will have their parentage set to this document, but the List itself
      * will not be "live" and further removals and additions will have no effect on this document content. If the user
      * wants to continue working with a "live" list, then a call to setContent should be followed by a call to {@link
-     * #getContent} to obtain a "live" version of the content. </p> <p/> <p> Passing a null or empty List clears the
+     * #getContents} to obtain a "live" version of the content. </p> <p/> <p> Passing a null or empty List clears the
      * existing content. </p> <p/> <p> In event of an exception the original content will be unchanged and the objects
      * in the supplied content will be unaltered. </p>
      *
@@ -501,10 +501,10 @@ public class Document
      * If the supplied child is legal content for a Document and before it is added, all content in the current content
      * list will be cleared and all current children will have their parentage set to null.
      * <p/>
-     * This has the effect that any active list (previously obtained with a call to one of the {@link #getContent}
+     * This has the effect that any active list (previously obtained with a call to one of the {@link #getContents}
      * methods will also change to reflect the new content.  In addition, all content in the supplied collection will
      * have their parentage set to this Document.  If the user wants to continue working with a <b>"live"</b> list of
-     * this Document's child, then a call to setContent should be followed by a call to one of the {@link #getContent}
+     * this Document's child, then a call to setContent should be followed by a call to one of the {@link #getContents}
      * methods to obtain a <b>"live"</b> version of the children.
      * <p/>
      * Passing a null child clears the existing content.

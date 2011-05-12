@@ -509,7 +509,7 @@ public class SAXOutputter {
 
         // Handle root element, as well as any root level
         // processing instructions and comments
-        for (Content content : document.getContent()) {
+        for (Content content : document.getContents()) {
 
             // update locator
             locator.setNode(content);
@@ -743,7 +743,7 @@ public class SAXOutputter {
         startElement(element, nsAtts);
 
         // handle content in the element
-        elementContent(element.getContent(), namespaces);
+        elementContent(element.getContents(), namespaces);
 
         // update locator
         if (locator != null) {
