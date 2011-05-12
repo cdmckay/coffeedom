@@ -117,8 +117,6 @@ public class SAXBuilderDemo {
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             //outputter.setExpandEmptyElements(true);
             outputter.output(doc, System.out);
-        } catch (CoffeeDOMException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

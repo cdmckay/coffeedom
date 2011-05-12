@@ -580,8 +580,6 @@ public class SAXBuilder {
 
                 // Configure parser.
                 setFeaturesAndProperties(parser, false);
-            } catch (CoffeeDOMException e) {
-                throw e;
             } catch (NoClassDefFoundError e) {
                 // The class loader failed to resolve the dependencies
                 // of JAXPParserFactory. This probably means

@@ -124,8 +124,6 @@ public abstract class XPath
             }
             // Allocate and return new implementation instance.
             return (XPath) constructor.newInstance(path);
-        } catch (CoffeeDOMException e) {
-            throw e;
         } catch (InvocationTargetException e) {
             // Constructor threw an error on invocation.
             Throwable t = e.getTargetException();
@@ -156,8 +154,6 @@ public abstract class XPath
             } else {
                 throw new CoffeeDOMException(clazz.getName() + " is not a concrete CoffeeDOM XPath implementation");
             }
-        } catch (CoffeeDOMException e) {
-            throw e;
         } catch (Exception e) {
             // Any reflection error (probably due to a configuration mistake).
             throw new CoffeeDOMException(e.toString(), e);

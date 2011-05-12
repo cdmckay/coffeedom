@@ -55,12 +55,8 @@
 package org.cdmckay.coffeedom.sample.sax;
 
 import org.cdmckay.coffeedom.Document;
-import org.cdmckay.coffeedom.CoffeeDOMException;
 import org.cdmckay.coffeedom.output.SAXOutputter;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 
 /**
  * An XMLReader wrapper for CoffeeDOM documents.
@@ -79,12 +75,8 @@ public class DocumentReader
         this.doc = doc;
     }
 
-    public void parse(InputSource input) throws SAXException, IOException {
+    public void parse(InputSource input) {
         SAXOutputter outputter = new SAXOutputter(this, this, this, this, this);
-        try {
-            outputter.output(doc);
-        } catch (CoffeeDOMException ex) {
-            throw new SAXException(ex);
-        }
+        outputter.output(doc);
     }
 }

@@ -212,6 +212,11 @@ public class EntityRef
     }
 
     @Override
+    public Element getParent() {
+        return (Element) super.getParent();
+    }
+
+    @Override
     protected EntityRef setParent(Parent parent) {
         return (EntityRef) super.setParent(parent);
     }

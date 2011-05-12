@@ -72,7 +72,7 @@ import java.sql.SQLException;
  * @author Jason Hunter
  */
 public class CoffeeDOMException
-        extends Exception {
+        extends RuntimeException {
 
     /**
      * A wrapped <code>Throwable</code>
