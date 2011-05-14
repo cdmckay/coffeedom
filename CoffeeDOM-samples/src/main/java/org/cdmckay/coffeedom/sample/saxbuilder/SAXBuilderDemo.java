@@ -55,12 +55,9 @@
 package org.cdmckay.coffeedom.sample.saxbuilder;
 
 import org.cdmckay.coffeedom.Document;
-import org.cdmckay.coffeedom.CoffeeDOMException;
 import org.cdmckay.coffeedom.input.SAXBuilder;
 import org.cdmckay.coffeedom.output.Format;
 import org.cdmckay.coffeedom.output.XMLOutputter;
-
-import java.io.IOException;
 
 /**
  * <code>SAXBuilderDemo</code> demonstrates how to build a CoffeeDOM <code>Document</code> using a SAX 2.0 parser.
@@ -102,23 +99,19 @@ public class SAXBuilderDemo {
         }
 
         // Create an instance of the tester and test.
-        try {
-            SAXBuilder builder;
-            if (saxDriverClassName == null) {
-                builder = new SAXBuilder();
-            } else {
-                builder = new SAXBuilder(saxDriverClassName);
-            }
-            builder.setExpandEntities(expandEntities);
-            //builder.setIgnoringBoundaryWhitespace(true);
-
-            Document doc = builder.build(filename);
-
-            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-            //outputter.setExpandEmptyElements(true);
-            outputter.output(doc, System.out);
-        } catch (IOException e) {
-            e.printStackTrace();
+        SAXBuilder builder;
+        if (saxDriverClassName == null) {
+            builder = new SAXBuilder();
+        } else {
+            builder = new SAXBuilder(saxDriverClassName);
         }
+        builder.setExpandEntities(expandEntities);
+        //builder.setIgnoringBoundaryWhitespace(true);
+
+        Document doc = builder.build(filename);
+
+        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        //outputter.setExpandEmptyElements(true);
+        outputter.output(doc, System.out);
     }
 }

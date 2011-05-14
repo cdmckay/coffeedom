@@ -125,6 +125,8 @@ public class XMLOutputter
     /**
      * This will create an <code>XMLOutputter</code> with the specified format characteristics.  Note the format object
      * is cloned internally before use.
+     *
+     * @param format The format characteristics.
      */
     public XMLOutputter(Format format) {
         userFormat = format.clone();
@@ -155,13 +157,12 @@ public class XMLOutputter
     /**
      * Returns the current format in use by the outputter.  Note the Format object returned is a clone of the one used
      * internally.
+     *
+     * @return A cloned copy of the format.
      */
     public Format getFormat() {
         return userFormat.clone();
     }
-
-    // * * * * * * * * * * Output to a OutputStream * * * * * * * * * *
-    // * * * * * * * * * * Output to a OutputStream * * * * * * * * * *
 
     /**
      * This will print the <code>Document</code> to the given output stream. The characters are printed using the
@@ -169,22 +170,31 @@ public class XMLOutputter
      *
      * @param doc <code>Document</code> to format.
      * @param out <code>OutputStream</code> to use.
-     * @throws IOException - if there's any problem writing.
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Document doc, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(doc, writer);  // output() flushes
+    public void output(Document doc, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(doc, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
      * Print out the <code>{@link DocType}</code>.
      *
-     * @param doctype <code>DocType</code> to output.
+     * @param docType <code>DocType</code> to output.
      * @param out     <code>OutputStream</code> to use.
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(DocType doctype, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(doctype, writer);  // output() flushes
+    public void output(DocType docType, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(docType, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -193,10 +203,15 @@ public class XMLOutputter
      *
      * @param element <code>Element</code> to output.
      * @param out     <code>Writer</code> to use.
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Element element, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(element, writer);  // output() flushes
+    public void output(Element element, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(element, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -206,11 +221,15 @@ public class XMLOutputter
      *
      * @param element <code>Element</code> to output.
      * @param out     <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void outputElementContent(Element element, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        outputElementContent(element, writer);  // output() flushes
+    public void outputElementContent(Element element, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            outputElementContent(element, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -218,12 +237,16 @@ public class XMLOutputter
      * contains HTML, like "&lt;description&gt;CoffeeDOM is &lt;b&gt;fun&gt;!&lt;/description&gt;".
      *
      * @param contents <code>List</code> of nodes.
-     * @param out  <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @param out     <code>OutputStream</code> to use.
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(List<Content> contents, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(contents, writer);  // output() flushes
+    public void output(List<Content> contents, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(contents, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -231,11 +254,15 @@ public class XMLOutputter
      *
      * @param cdata <code>CDATA</code> to output.
      * @param out   <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(CDATA cdata, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(cdata, writer);  // output() flushes
+    public void output(CDATA cdata, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(cdata, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -243,11 +270,15 @@ public class XMLOutputter
      *
      * @param text <code>Text</code> to output.
      * @param out  <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Text text, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(text, writer);  // output() flushes
+    public void output(Text text, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(text, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -255,11 +286,15 @@ public class XMLOutputter
      *
      * @param comment <code>Comment</code> to output.
      * @param out     <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Comment comment, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(comment, writer);  // output() flushes
+    public void output(Comment comment, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(comment, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -267,11 +302,15 @@ public class XMLOutputter
      *
      * @param pi  <code>ProcessingInstruction</code> to output.
      * @param out <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(ProcessingInstruction pi, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(pi, writer);  // output() flushes
+    public void output(ProcessingInstruction pi, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(pi, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -279,32 +318,36 @@ public class XMLOutputter
      *
      * @param entity <code>EntityRef</code> to output.
      * @param out    <code>OutputStream</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(EntityRef entity, OutputStream out) throws IOException {
-        Writer writer = makeWriter(out);
-        output(entity, writer);  // output() flushes
+    public void output(EntityRef entity, OutputStream out) throws CoffeeDOMIOException {
+        try {
+            Writer writer = makeWriter(out);
+            output(entity, writer); // output() flushes
+        } catch (UnsupportedEncodingException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
-     * Get an OutputStreamWriter, using prefered encoding (see {@link Format#setEncoding(String)}).
+     * Get an OutputStreamWriter, using preferred encoding (see {@link Format#setEncoding(String)}).
      *
-     * @param out
-     * @return
-     * @throws java.io.UnsupportedEncodingException
+     * @param out The output stream the writer will use.
+     * @return A new Writer using the preferred encoding.
+     * @throws UnsupportedEncodingException if the encoding is not supported.
      */
-    private Writer makeWriter(OutputStream out) throws java.io.UnsupportedEncodingException {
+    private Writer makeWriter(OutputStream out) throws UnsupportedEncodingException {
         return makeWriter(out, userFormat.encoding);
     }
 
     /**
      * Get an OutputStreamWriter, use specified encoding.
-     * @param out
-     * @param encoding
-     * @return
-     * @throws java.io.UnsupportedEncodingException
+     * @param out The output stream the writer will use.
+     * @param encoding The encoding to use.
+     * @return A new Writer using the given encoding.
+     * @throws UnsupportedEncodingException if the encoding is not supported.
      */
-    private static Writer makeWriter(OutputStream out, String encoding) throws java.io.UnsupportedEncodingException {
+    private static Writer makeWriter(OutputStream out, String encoding) throws UnsupportedEncodingException {
         // "UTF-8" is not recognized before JDK 1.1.6, so we'll translate
         // into "UTF8" which works with all JDKs.
         if ("UTF-8".equals(encoding)) {
@@ -321,42 +364,44 @@ public class XMLOutputter
      *
      * @param doc <code>Document</code> to format.
      * @param out <code>Writer</code> to use.
-     * @throws IOException - if there's any problem writing.
+     * @throws CoffeeDOMIOException - if there's any problem writing.
      */
-    public void output(Document doc, Writer out) throws IOException {
+    public void output(Document doc, Writer out) throws CoffeeDOMIOException {
+        try {
+            printDeclaration(out, doc, userFormat.encoding);
 
-        printDeclaration(out, doc, userFormat.encoding);
+            // Print out root element, as well as any root level
+            // comments and processing instructions,
+            // starting with no indentation
+            List<Content> contents = doc.getContents();
+            for (Content content : contents) {
+                if (content instanceof Element) {
+                    printElement(out, doc.getRootElement(), 0, createNamespaceStack());
+                } else if (content instanceof Comment) {
+                    printComment(out, (Comment) content);
+                } else if (content instanceof ProcessingInstruction) {
+                    printProcessingInstruction(out, (ProcessingInstruction) content);
+                } else if (content instanceof DocType) {
+                    printDocType(out, doc.getDocType());
+                    // Always print line separator after declaration, helps the
+                    // output look better and is semantically inconsequential
+                    out.write(currentFormat.lineSeparator);
+                } else {
+                    // XXX if we get here then we have a illegal content, for
+                    //     now we'll just ignore it
+                }
 
-        // Print out root element, as well as any root level
-        // comments and processing instructions,
-        // starting with no indentation
-        List<Content> contents = doc.getContents();
-        for (Content content : contents) {
-            if (content instanceof Element) {
-                printElement(out, doc.getRootElement(), 0, createNamespaceStack());
-            } else if (content instanceof Comment) {
-                printComment(out, (Comment) content);
-            } else if (content instanceof ProcessingInstruction) {
-                printProcessingInstruction(out, (ProcessingInstruction) content);
-            } else if (content instanceof DocType) {
-                printDocType(out, doc.getDocType());
-                // Always print line separator after declaration, helps the
-                // output look better and is semantically inconsequential
-                out.write(currentFormat.lineSeparator);
-            } else {
-                // XXX if we get here then we have a illegal content, for
-                //     now we'll just ignore it
+                newline(out);
+                indent(out, 0);
             }
 
-            newline(out);
-            indent(out, 0);
+            // Output final line separator
+            // We output this no matter what the newline flags say
+            out.write(currentFormat.lineSeparator);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
         }
-
-        // Output final line separator
-        // We output this no matter what the newline flags say
-        out.write(currentFormat.lineSeparator);
-
-        out.flush();
     }
 
     /**
@@ -364,11 +409,15 @@ public class XMLOutputter
      *
      * @param doctype <code>DocType</code> to output.
      * @param out     <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(DocType doctype, Writer out) throws IOException {
-        printDocType(out, doctype);
-        out.flush();
+    public void output(DocType doctype, Writer out) throws CoffeeDOMIOException {
+        try {
+            printDocType(out, doctype);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -377,13 +426,17 @@ public class XMLOutputter
      *
      * @param element <code>Element</code> to output.
      * @param out     <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Element element, Writer out) throws IOException {
-        // If this is the root element we could pre-initialize the
-        // namespace stack with the namespaces
-        printElement(out, element, 0, createNamespaceStack());
-        out.flush();
+    public void output(Element element, Writer out) throws CoffeeDOMIOException {
+        try {
+            // If this is the root element we could pre-initialize the
+            // namespace stack with the namespaces
+            printElement(out, element, 0, createNamespaceStack());
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -393,12 +446,16 @@ public class XMLOutputter
      *
      * @param element <code>Element</code> to output.
      * @param out     <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void outputElementContent(Element element, Writer out) throws IOException {
-        List<Content> contents = element.getContents();
-        printContentRange(out, contents, 0, contents.size(), 0, createNamespaceStack());
-        out.flush();
+    public void outputElementContent(Element element, Writer out) throws CoffeeDOMIOException {
+        try {
+            List<Content> contents = element.getContents();
+            printContentRange(out, contents, 0, contents.size(), 0, createNamespaceStack());
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -407,11 +464,15 @@ public class XMLOutputter
      *
      * @param contents <code>List</code> of nodes.
      * @param out  <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(List<Content> contents, Writer out) throws IOException {
-        printContentRange(out, contents, 0, contents.size(), 0, createNamespaceStack());
-        out.flush();
+    public void output(List<Content> contents, Writer out) throws CoffeeDOMIOException {
+        try {
+            printContentRange(out, contents, 0, contents.size(), 0, createNamespaceStack());
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -419,11 +480,15 @@ public class XMLOutputter
      *
      * @param cdata <code>CDATA</code> to output.
      * @param out   <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(CDATA cdata, Writer out) throws IOException {
-        printCDATA(out, cdata);
-        out.flush();
+    public void output(CDATA cdata, Writer out) throws CoffeeDOMIOException {
+        try {
+            printCDATA(out, cdata);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -431,11 +496,15 @@ public class XMLOutputter
      *
      * @param text <code>Text</code> to output.
      * @param out  <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Text text, Writer out) throws IOException {
-        printText(out, text);
-        out.flush();
+    public void output(Text text, Writer out) throws CoffeeDOMIOException {
+        try {
+            printText(out, text);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -443,11 +512,15 @@ public class XMLOutputter
      *
      * @param comment <code>Comment</code> to output.
      * @param out     <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(Comment comment, Writer out) throws IOException {
-        printComment(out, comment);
-        out.flush();
+    public void output(Comment comment, Writer out) throws CoffeeDOMIOException {
+        try {
+            printComment(out, comment);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -455,17 +528,21 @@ public class XMLOutputter
      *
      * @param pi  <code>ProcessingInstruction</code> to output.
      * @param out <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(ProcessingInstruction pi, Writer out) throws IOException {
-        boolean currentEscapingPolicy = currentFormat.ignoreTrAXEscapingPIs;
+    public void output(ProcessingInstruction pi, Writer out) throws CoffeeDOMIOException {
+        try {
+            boolean currentEscapingPolicy = currentFormat.ignoreTrAXEscapingPIs;
 
-        // Output PI verbatim, disregarding TrAX escaping PIs.
-        currentFormat.setIgnoreTrAXEscapingPIs(true);
-        printProcessingInstruction(out, pi);
-        currentFormat.setIgnoreTrAXEscapingPIs(currentEscapingPolicy);
+            // Output PI verbatim, disregarding TrAX escaping PIs.
+            currentFormat.setIgnoreTrAXEscapingPIs(true);
+            printProcessingInstruction(out, pi);
+            currentFormat.setIgnoreTrAXEscapingPIs(currentEscapingPolicy);
 
-        out.flush();
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -473,11 +550,15 @@ public class XMLOutputter
      *
      * @param entity <code>EntityRef</code> to output.
      * @param out    <code>Writer</code> to use.
-     * @throws java.io.IOException
+     * @throws CoffeeDOMIOException if there's any problem writing.
      */
-    public void output(EntityRef entity, Writer out) throws IOException {
-        printEntityRef(out, entity);
-        out.flush();
+    public void output(EntityRef entity, Writer out) throws CoffeeDOMIOException {
+        try {
+            printEntityRef(out, entity);
+            out.flush();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
+        }
     }
 
     /**
@@ -485,14 +566,11 @@ public class XMLOutputter
      * not match the outputter's specified encoding.
      *
      * @param doc <code>Document</code> to format.
-     * @return
+     * @return A string representing the document.
      */
     public String outputString(Document doc) {
         StringWriter out = new StringWriter();
-        try {
-            output(doc, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(doc, out); // output() flushes
         return out.toString();
     }
 
@@ -500,15 +578,12 @@ public class XMLOutputter
      * Return a string representing a DocType. Warning: a String is Unicode, which may not match the outputter's
      * specified encoding.
      *
-     * @param doctype <code>DocType</code> to format.
-     * @return
+     * @param docType <code>DocType</code> to format.
+     * @return A string representing the DocType.
      */
-    public String outputString(DocType doctype) {
+    public String outputString(DocType docType) {
         StringWriter out = new StringWriter();
-        try {
-            output(doctype, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(docType, out); // output() flushes
         return out.toString();
     }
 
@@ -517,29 +592,23 @@ public class XMLOutputter
      * specified encoding.
      *
      * @param element <code>Element</code> to format.
-     * @return
+     * @return A string representing the element.
      */
     public String outputString(Element element) {
         StringWriter out = new StringWriter();
-        try {
-            output(element, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(element, out); // output() flushes
         return out.toString();
     }
 
     /**
-     * Return a string representing a list of nodes.  The list is assumed to contain legal CoffeeDOM nodes.
+     * Return a string representing a list of nodes.
      *
      * @param list <code>List</code> to format.
-     * @return
+     * @return A string representing the list of nodes.
      */
     public String outputString(List<Content> list) {
         StringWriter out = new StringWriter();
-        try {
-            output(list, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(list, out); // output() flushes
         return out.toString();
     }
 
@@ -548,14 +617,11 @@ public class XMLOutputter
      * specified encoding.
      *
      * @param cdata <code>CDATA</code> to format.
-     * @return
+     * @return A string representing the CDATA.
      */
     public String outputString(CDATA cdata) {
         StringWriter out = new StringWriter();
-        try {
-            output(cdata, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(cdata, out); // output() flushes
         return out.toString();
     }
 
@@ -564,14 +630,11 @@ public class XMLOutputter
      * specified encoding.
      *
      * @param text <code>Text</code> to format.
-     * @return
+     * @return A string representing the text.
      */
     public String outputString(Text text) {
         StringWriter out = new StringWriter();
-        try {
-            output(text, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(text, out); // output() flushes
         return out.toString();
     }
 
@@ -581,14 +644,11 @@ public class XMLOutputter
      * specified encoding.
      *
      * @param comment <code>Comment</code> to format.
-     * @return
+     * @return A string representing the comment.
      */
     public String outputString(Comment comment) {
         StringWriter out = new StringWriter();
-        try {
-            output(comment, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(comment, out); // output() flushes
         return out.toString();
     }
 
@@ -597,14 +657,11 @@ public class XMLOutputter
      * encoding.
      *
      * @param pi <code>ProcessingInstruction</code> to format.
-     * @return
+     * @return A string representing the PI.
      */
     public String outputString(ProcessingInstruction pi) {
         StringWriter out = new StringWriter();
-        try {
-            output(pi, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(pi, out); // output() flushes
         return out.toString();
     }
 
@@ -613,14 +670,11 @@ public class XMLOutputter
      * specified encoding.
      *
      * @param entity <code>EntityRef</code> to format.
-     * @return
+     * @return A string representing the entity ref.
      */
     public String outputString(EntityRef entity) {
         StringWriter out = new StringWriter();
-        try {
-            output(entity, out);  // output() flushes
-        } catch (IOException ignored) {
-        }
+        output(entity, out); // output() flushes
         return out.toString();
     }
 
@@ -648,6 +702,7 @@ public class XMLOutputter
             // inconsequential
             out.write(currentFormat.lineSeparator);
         }
+
     }
 
     /**
@@ -806,7 +861,8 @@ public class XMLOutputter
      * @param namespaces <code>List</code> stack of Namespaces in scope.
      * @throws java.io.IOException
      */
-    protected void printElement(Writer out, Element element, int level, NamespaceStack namespaces) throws IOException {
+    protected void printElement(Writer out, Element element, int level, NamespaceStack namespaces)
+            throws IOException {
 
         List<Attribute> attributes = element.getAttributes();
         List<Content> contents = element.getContents();
@@ -999,12 +1055,10 @@ public class XMLOutputter
 
                 // Determine if we need to pad the output (padding is
                 // only need in trim or normalizing mode)
-                if (previous != null) { // Not 1st node
-                    if (currentFormat.mode == Format.TextMode.NORMALIZE || currentFormat.mode == Format.TextMode.TRIM) {
-                        if ((endsWithWhite(previous)) || (startsWithWhite(next))) {
-                            out.write(" ");
-                        }
-                    }
+                if (previous != null
+                        && (currentFormat.mode == Format.TextMode.NORMALIZE || currentFormat.mode == Format.TextMode.TRIM)
+                        && (endsWithWhite(previous) || startsWithWhite(next))) {
+                    out.write(" ");
                 }
 
                 // Print the node
@@ -1079,7 +1133,8 @@ public class XMLOutputter
         }
     }
 
-    private void printElementNamespace(Writer out, Element element, NamespaceStack namespaces) throws IOException {
+    private void printElementNamespace(Writer out, Element element, NamespaceStack namespaces)
+            throws IOException {
         // Add namespace decl only if it's not the XML namespace and it's
         // not the NO_NAMESPACE with the prefix "" not yet mapped
         // (we do output xmlns="" if the "" prefix was already used and we
@@ -1093,7 +1148,8 @@ public class XMLOutputter
         }
     }
 
-    private void printAdditionalNamespaces(Writer out, Element element, NamespaceStack namespaces) throws IOException {
+    private void printAdditionalNamespaces(Writer out, Element element, NamespaceStack namespaces)
+            throws IOException {
         List<Namespace> additionalNamespaces = element.getAdditionalNamespaces();
         if (additionalNamespaces != null) {
             for (Namespace additionalNamespace : additionalNamespaces) {

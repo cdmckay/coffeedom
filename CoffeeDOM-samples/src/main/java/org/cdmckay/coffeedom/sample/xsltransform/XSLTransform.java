@@ -65,7 +65,7 @@ import org.cdmckay.coffeedom.transform.XSLTransformer;
  */
 public class XSLTransform {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         if (args.length != 2) {
             System.err.println("Usage: java XSLTransformer [some.xml] [some.xsl]");
             return;

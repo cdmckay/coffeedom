@@ -83,7 +83,7 @@ public class CoffeeDOMException
      * This will create an <code>Exception</code>.
      */
     public CoffeeDOMException() {
-        super("Error occurred in CoffeeDOM application.");
+        super("Error occurred in the CoffeeDOM application.");
     }
 
     /**

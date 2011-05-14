@@ -142,7 +142,7 @@ public class SAXHandler
     /**
      * Temporary holder for the internal subset
      */
-    private StringBuilder internalSubset = new StringBuilder();
+    private StringBuffer internalSubset = new StringBuffer();
 
     /**
      * Temporary holder for Text and CDATA

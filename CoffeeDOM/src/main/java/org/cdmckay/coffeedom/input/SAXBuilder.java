@@ -221,7 +221,7 @@ public class SAXBuilder {
      *
      * @return the driver class assigned in the constructor
      */
-    public String getDriverClass() {
+    public String getDriverClassName() {
         return saxDriverClassName;
     }
 
@@ -371,7 +371,7 @@ public class SAXBuilder {
      * this feature is more aggressive and doesn't require validation be turned on.  The {@link
      * #setIgnoringElementContentWhitespace(boolean)} call impacts the SAX parse process while this method impacts the
      * CoffeeDOM build process, so it can be beneficial to turn both on for efficiency. For implementation efficiency, this
-     * method actually removes all whitespace-only text() nodes.  That can, in some cases (like beteween an element tag
+     * method actually removes all whitespace-only text() nodes.  That can, in some cases (like between an element tag
      * and a comment), include whitespace that isn't just boundary whitespace.  The default is <code>false</code>.
      *
      * @param ignoringBoundaryWhite Whether to ignore whitespace-only text noes
@@ -454,9 +454,8 @@ public class SAXBuilder {
      * @param in <code>InputSource</code> to read from
      * @return <code>Document</code> resultant Document object
      * @throws CoffeeDOMException when errors occur in parsing
-     * @throws IOException   when an I/O error prevents a document from being fully parsed
      */
-    public Document build(InputSource in) throws CoffeeDOMException, IOException {
+    public Document build(InputSource in) throws CoffeeDOMException {
         SAXHandler contentHandler = null;
 
         try {
@@ -498,9 +497,11 @@ public class SAXBuilder {
             parser.parse(in);
 
             return contentHandler.getDocument();
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
         } catch (SAXParseException e) {
             Document doc = contentHandler.getDocument();
-            if (doc.hasRootElement() == false) {
+            if (!doc.hasRootElement()) {
                 doc = null;
             }
 
@@ -512,11 +513,6 @@ public class SAXBuilder {
             }
         } catch (SAXException e) {
             throw new CoffeeDOMParseException("Error in building: " + e.getMessage(), e, contentHandler.getDocument());
-        } finally {
-            // Explicitly nullify the handler to encourage GC
-            // It's a stack var so this shouldn't be necessary, but it
-            // seems to help on some JVMs
-            contentHandler = null;
         }
     }
 
@@ -526,8 +522,7 @@ public class SAXBuilder {
      * @return <code>SAXHandler</code> - resultant SAXHandler object.
      */
     protected SAXHandler createContentHandler() {
-        SAXHandler contentHandler = new SAXHandler(factory);
-        return contentHandler;
+        return new SAXHandler(factory);
     }
 
     /**
@@ -550,8 +545,8 @@ public class SAXBuilder {
      * else fails, use a hard-coded default parser (currently the Xerces parser). Subclasses may override this method to
      * determine the parser to use in a different way. </p>
      *
-     * @return <code>XMLReader</code> - resultant XMLReader object.
-     * @throws CoffeeDOMException
+     * @return resultant XMLReader object.
+     * @throws CoffeeDOMException if there is trouble loading the SAX driver.
      */
     protected XMLReader createParser() throws CoffeeDOMException {
         XMLReader parser = null;
@@ -614,9 +609,9 @@ public class SAXBuilder {
      * that are required for CoffeeDOM internals. These features may change in future releases, so change this behavior at
      * your own risk. </p>
      *
-     * @param parser
-     * @param contentHandler
-     * @throws CoffeeDOMException
+     * @param parser The parser.
+     * @param contentHandler The SAX content handler.
+     * @throws CoffeeDOMException when errors occur in parsing.
      */
     protected void configureParser(XMLReader parser, SAXHandler contentHandler) throws CoffeeDOMException {
 
@@ -778,7 +773,7 @@ public class SAXBuilder {
      * @param property
      * @param value
      * @param displayName
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException
+     * @throws CoffeeDOMException if a property is not supported for the SAX driver
      */
     private void internalSetProperty(XMLReader parser, String property, Object value, String displayName)
             throws CoffeeDOMException {
@@ -799,9 +794,8 @@ public class SAXBuilder {
      * @param in <code>InputStream</code> to read from
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed.
      */
-    public Document build(InputStream in) throws CoffeeDOMException, IOException {
+    public Document build(InputStream in) throws CoffeeDOMException {
         return build(new InputSource(in));
     }
 
@@ -811,14 +805,15 @@ public class SAXBuilder {
      * @param file <code>File</code> to read from
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed
      */
-    public Document build(File file) throws CoffeeDOMException, IOException {
+    public Document build(File file) throws CoffeeDOMException {
         try {
             URL url = fileToURL(file);
             return build(url);
         } catch (MalformedURLException e) {
             throw new CoffeeDOMException("Error in building", e);
+        } catch (IOException e) {
+            throw new CoffeeDOMIOException(e);
         }
     }
 
@@ -828,9 +823,8 @@ public class SAXBuilder {
      * @param url <code>URL</code> to read from.
      * @return <code>Document</code> - resultant Document object.
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed.
      */
-    public Document build(URL url) throws CoffeeDOMException, IOException {
+    public Document build(URL url) throws CoffeeDOMException {
         String systemID = url.toExternalForm();
         return build(new InputSource(systemID));
     }
@@ -842,9 +836,8 @@ public class SAXBuilder {
      * @param systemId base for resolving relative URIs
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed
      */
-    public Document build(InputStream in, String systemId) throws CoffeeDOMException, IOException {
+    public Document build(InputStream in, String systemId) throws CoffeeDOMException {
         InputSource src = new InputSource(in);
         src.setSystemId(systemId);
         return build(src);
@@ -858,9 +851,8 @@ public class SAXBuilder {
      * @param characterStream <code>Reader</code> to read from
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed
      */
-    public Document build(Reader characterStream) throws CoffeeDOMException, IOException {
+    public Document build(Reader characterStream) throws CoffeeDOMException {
         return build(new InputSource(characterStream));
     }
 
@@ -873,9 +865,8 @@ public class SAXBuilder {
      * @param systemId        base for resolving relative URIs
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed
      */
-    public Document build(Reader characterStream, String systemId) throws CoffeeDOMException, IOException {
+    public Document build(Reader characterStream, String systemId) throws CoffeeDOMException {
         InputSource src = new InputSource(characterStream);
         src.setSystemId(systemId);
         return build(src);
@@ -887,34 +878,10 @@ public class SAXBuilder {
      * @param systemId URI for the input
      * @return <code>Document</code> resultant Document object
      * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
-     * @throws IOException                    when an I/O error prevents a document from being fully parsed
      */
-    public Document build(String systemId) throws CoffeeDOMException, IOException {
+    public Document build(String systemId) throws CoffeeDOMException {
         return build(new InputSource(systemId));
     }
-
-//    /**
-//     * Imitation of File.toURL(), a JDK 1.2 method, reimplemented
-//     * here to work with JDK 1.1.
-//     *
-//     * @see java.io.File
-//     *
-//     * @param f the file to convert
-//     * @return the file path converted to a file: URL
-//     */
-//    protected URL fileToURL(File f) throws MalformedURLException {
-//        String path = f.getAbsolutePath();
-//        if (File.separatorChar != '/') {
-//            path = path.replace(File.separatorChar, '/');
-//        }
-//        if (!path.startsWith("/")) {
-//            path = "/" + path;
-//        }
-//        if (!path.endsWith("/") && f.isDirectory()) {
-//            path = path + "/";
-//        }
-//        return new URL("file", "", path);
-//    }
 
     /**
      * Custom File.toUrl() implementation to handle special chars in file names

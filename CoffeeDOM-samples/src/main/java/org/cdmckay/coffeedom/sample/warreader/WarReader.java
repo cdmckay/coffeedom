@@ -56,11 +56,9 @@ package org.cdmckay.coffeedom.sample.warreader;
 
 import org.cdmckay.coffeedom.Document;
 import org.cdmckay.coffeedom.Element;
-import org.cdmckay.coffeedom.CoffeeDOMException;
 import org.cdmckay.coffeedom.input.SAXBuilder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -73,7 +71,7 @@ import java.util.List;
  */
 public class WarReader {
 
-    public static void main(String[] args) throws IOException, CoffeeDOMException {
+    public static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("Usage: java WarReader [web.xml]");
             return;

@@ -58,13 +58,11 @@ package org.cdmckay.coffeedom.sample.xpathreader;
 
 import org.cdmckay.coffeedom.Document;
 import org.cdmckay.coffeedom.Element;
-import org.cdmckay.coffeedom.CoffeeDOMException;
 import org.cdmckay.coffeedom.Text;
 import org.cdmckay.coffeedom.input.SAXBuilder;
 import org.cdmckay.coffeedom.xpath.XPath;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -76,7 +74,7 @@ import java.util.List;
  */
 public class XPathReader {
 
-    public static void main(String[] args) throws IOException, CoffeeDOMException {
+    public static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("Usage: java XPathReader [web.xml]");
             return;

@@ -183,19 +183,19 @@ public interface Parent
     Parent clone();
 
     /**
-     * Returns an {@link java.util.Iterator} that walks over all descendants in document order.
+     * Returns an {@link java.lang.Iterable} that walks over all descendants in document order.
      *
-     * @return an iterator to walk descendants
+     * @return an iterable to walk descendants
      */
     Iterable<Content> getDescendants();
 
     /**
-     * Returns an {@link java.util.Iterator} that walks over all descendants in document order applying the Filter to
+     * Returns an {@link java.lang.Iterable} that walks over all descendants in document order applying the Filter to
      * return only elements that match the filter rule.  With filters you can match only Elements, only Comments,
      * Elements or Comments, only Elements with a given name and/or prefix, and so on.
      *
      * @param filter filter to select which descendants to see
-     * @return an iterator to walk descendants that match a filter
+     * @return an iterable to walk descendants that match a filter
      */
     Iterable<Content> getDescendants(Filter filter);
 
