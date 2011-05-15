@@ -9,6 +9,7 @@
     <packaging>jar</packaging>
 
     <name>CoffeeDOM-samples</name>
+    <description>Sample CoffeeDOM projects</description>
     <url>http://coffeedom.googlecode.com</url>
 
     <properties>

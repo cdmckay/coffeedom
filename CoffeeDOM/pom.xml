@@ -12,6 +12,28 @@
     <description>A tree-based XML API with Java 5 support</description>
     <url>http://coffeedom.googlecode.com</url>
 
+    <licenses>
+        <license>
+            <name>The JDOM License</name>
+            <url>http://cdmckay.org/coffeedom/license/LICENSE.txt</url>
+            <comments>A business-friendly Apache-style OSS license</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>http://code.google.com/p/coffeedom/source/browse/</url>
+        <connection>scm:hg:https://coffeedom.googlecode.com/hg/</connection>
+        <developerConnection>scm:hg:https://coffeedom.googlecode.com/hg/</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>cdmckay</id>
+            <name>Cameron McKay</name>
+            <email>me@cdmckay.org</email>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyMMddHHmm</maven.build.timestamp.format>

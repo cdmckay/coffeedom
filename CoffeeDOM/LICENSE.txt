@@ -1,8 +1,4 @@
-/*-- 
-
- $Id: LICENSE.txt,v 1.11 2004/02/06 09:32:57 jhunter Exp $
-
- Copyright (C) 2000-2004 Jason Hunter & Brett McLaughlin.
+ Copyright (C) 2000-2004 Jason Hunter & Brett McLaughlin. 
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -51,6 +47,9 @@
  created by Jason Hunter <jhunter_AT_jdom_DOT_org> and
  Brett McLaughlin <brett_AT_jdom_DOT_org>.  For more information
  on the JDOM Project, please see <http://www.jdom.org/>. 
-
- */
-
+ 
+ CoffeeDOM is a fork of JDOM and consists of contributions made
+ by many individuals.  CoffeeDOM was originally forked from JDOM 
+ by Cameron McKay <cdmckay_AT_gmail_DOT_com>. For more information 
+ on CoffeeDOM, please see visit the CoffeeDOM website at 
+ <http://coffeedom.googlecode.com/>.
