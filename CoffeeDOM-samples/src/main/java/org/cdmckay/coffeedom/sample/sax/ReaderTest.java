@@ -88,7 +88,7 @@ public class ReaderTest {
         /* Build document from XML file. */
         SAXBuilder builder = new SAXBuilder();
         builder.setXMLFilter(echoWriter);
-        InputStream in = FilterTest.class.getResourceAsStream("test2.xml");
+        InputStream in = FilterTest.class.getResourceAsStream("/test2.xml");
 
         System.out.println(" -- SAXBuilder(test2.xml), echoed by XMLWriter -- \n");
         Document doc = builder.build(in);

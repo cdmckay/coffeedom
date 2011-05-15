@@ -87,7 +87,7 @@ public class FilterTest {
         DataFormatFilter format = new DataFormatFilter(echoWriter);
         format.setIndentStep(4);
         test1Builder.setXMLFilter(format);
-        InputStream test1Stream = FilterTest.class.getResourceAsStream("test1.xml");
+        InputStream test1Stream = FilterTest.class.getResourceAsStream("/test1.xml");
 
         System.out.println(" -- test1.xml unfiltered -- \n");
         Document doc = test1Builder.build(test1Stream);
@@ -102,7 +102,7 @@ public class FilterTest {
 
         SAXBuilder test2Builder = new SAXBuilder();
         test2Builder.setXMLFilter(new DataUnformatFilter(echoWriter));
-        InputStream test2Stream = FilterTest.class.getResourceAsStream("test2.xml");
+        InputStream test2Stream = FilterTest.class.getResourceAsStream("/test2.xml");
 
         System.out.println(" -- test2.xml unfiltered --\n");
         doc = test2Builder.build(test2Stream);

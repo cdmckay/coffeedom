@@ -70,22 +70,25 @@ public abstract class XMLReaderBase
         extends DefaultHandler
         implements LexicalHandler, XMLReader {
 
-    ////////////////////////////////////////////////////////////////////
-    // Constructors.
-    ////////////////////////////////////////////////////////////////////
+    protected static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 
+    protected static final String[] LEXICAL_HANDLER_NAMES = {
+            "http://xml.org/sax/properties/lexical-handler",
+            "http://xml.org/sax/handlers/LexicalHandler"
+    };
+
+    private Locator locator = null;
+    private EntityResolver entityResolver = null;
+    private DTDHandler dtdHandler = null;
+    private ContentHandler contentHandler = null;
+    private ErrorHandler errorHandler = null;
+    private LexicalHandler lexicalHandler = null;
 
     /**
      * Creates new XMLReaderBase.
      */
     public XMLReaderBase() {
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Convenience methods.
-    ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Start a new element without a qname or attributes.
@@ -96,13 +99,12 @@ public abstract class XMLReaderBase
      * @param uri       The element's Namespace URI.
      * @param localName The element's local name.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
     public void startElement(String uri, String localName)
             throws SAXException {
-        startElement(uri, localName, "", EMPTY_ATTS);
+        startElement(uri, localName, "", EMPTY_ATTRIBUTES);
     }
-
 
     /**
      * Start a new element without a Namespace URI or qname.
@@ -111,15 +113,14 @@ public abstract class XMLReaderBase
      * invokes {@link #startElement(String, String, String, Attributes)} directly.</p>
      *
      * @param localName The element's local name.
-     * @param atts      The element's attribute list.
+     * @param attributes      The element's attribute list.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
-    public void startElement(String localName, Attributes atts)
+    public void startElement(String localName, Attributes attributes)
             throws SAXException {
-        startElement("", localName, "", atts);
+        startElement("", localName, "", attributes);
     }
-
 
     /**
      * Start a new element without a Namespace URI, qname, or attributes.
@@ -129,13 +130,12 @@ public abstract class XMLReaderBase
      *
      * @param localName The element's local name.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
     public void startElement(String localName)
             throws SAXException {
-        startElement("", localName, "", EMPTY_ATTS);
+        startElement("", localName, "", EMPTY_ATTRIBUTES);
     }
-
 
     /**
      * End an element without a qname.
@@ -146,13 +146,12 @@ public abstract class XMLReaderBase
      * @param uri       The element's Namespace URI.
      * @param localName The element's local name.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void endElement(String uri, String localName)
             throws SAXException {
         endElement(uri, localName, "");
     }
-
 
     /**
      * End an element without a Namespace URI or qname.
@@ -162,13 +161,12 @@ public abstract class XMLReaderBase
      *
      * @param localName The element's local name.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void endElement(String localName)
             throws SAXException {
         endElement("", localName, "");
     }
-
 
     /**
      * Add an empty element.
@@ -181,18 +179,16 @@ public abstract class XMLReaderBase
      * @param localName The element's local name (without prefix).  This parameter must be provided.
      * @param qName     The element's qualified name (with prefix), or the empty string if none is available.  This
      *                  parameter is strictly advisory: the writer may or may not use the prefix attached.
-     * @param atts      The element's attribute list.
+     * @param attributes      The element's attribute list.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
-    public void emptyElement(String uri, String localName,
-                             String qName, Attributes atts)
+    public void emptyElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException {
-        startElement(uri, localName, qName, atts);
+        startElement(uri, localName, qName, attributes);
         endElement(uri, localName, qName);
     }
-
 
     /**
      * Add an empty element without a qname or attributes.
@@ -207,9 +203,8 @@ public abstract class XMLReaderBase
      */
     public void emptyElement(String uri, String localName)
             throws SAXException {
-        emptyElement(uri, localName, "", EMPTY_ATTS);
+        emptyElement(uri, localName, "", EMPTY_ATTRIBUTES);
     }
-
 
     /**
      * Add an empty element without a Namespace URI or qname.
@@ -218,15 +213,14 @@ public abstract class XMLReaderBase
      * invokes {@link #emptyElement(String, String, String, Attributes)} directly.</p>
      *
      * @param localName The element's local name.
-     * @param atts      The element's attribute list.
+     * @param attributes      The element's attribute list.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
-    public void emptyElement(String localName, Attributes atts)
+    public void emptyElement(String localName, Attributes attributes)
             throws SAXException {
-        emptyElement("", localName, "", atts);
+        emptyElement("", localName, "", attributes);
     }
-
 
     /**
      * Add an empty element without a Namespace URI, qname or attributes.
@@ -240,9 +234,8 @@ public abstract class XMLReaderBase
      */
     public void emptyElement(String localName)
             throws SAXException {
-        emptyElement("", localName, "", EMPTY_ATTS);
+        emptyElement("", localName, "", EMPTY_ATTRIBUTES);
     }
-
 
     /**
      * Add an element with character data content.
@@ -259,9 +252,9 @@ public abstract class XMLReaderBase
      * @param atts      The element's attributes.
      * @param content   The character data content.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      * @see #characters(String)
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void dataElement(String uri, String localName,
                             String qName, Attributes atts,
@@ -271,7 +264,6 @@ public abstract class XMLReaderBase
         characters(content);
         endElement(uri, localName, qName);
     }
-
 
     /**
      * Add an element with character data content but no qname or attributes.
@@ -284,15 +276,14 @@ public abstract class XMLReaderBase
      * @param localName The element's local name.
      * @param content   The character data content.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      * @see #characters(String)
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void dataElement(String uri, String localName, String content)
             throws SAXException {
-        dataElement(uri, localName, "", EMPTY_ATTS, content);
+        dataElement(uri, localName, "", EMPTY_ATTRIBUTES, content);
     }
-
 
     /**
      * Add an element with character data content but no Namespace URI or qname.
@@ -302,18 +293,17 @@ public abstract class XMLReaderBase
      * It invokes {@link #dataElement(String, String, String, Attributes, String)}} directly.</p>
      *
      * @param localName The element's local name.
-     * @param atts      The element's attributes.
+     * @param attributes      The element's attributes.
      * @param content   The character data content.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      * @see #characters(String)
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
-    public void dataElement(String localName, Attributes atts, String content)
+    public void dataElement(String localName, Attributes attributes, String content)
             throws SAXException {
-        dataElement("", localName, "", atts, content);
+        dataElement("", localName, "", attributes, content);
     }
-
 
     /**
      * Add an element with character data content but no attributes or Namespace URI.
@@ -326,15 +316,14 @@ public abstract class XMLReaderBase
      * @param localName The element's local name.
      * @param content   The character data content.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      * @see #characters(String)
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void dataElement(String localName, String content)
             throws SAXException {
-        dataElement("", localName, "", EMPTY_ATTS, content);
+        dataElement("", localName, "", EMPTY_ATTRIBUTES, content);
     }
-
 
     /**
      * Add a string of character data, with XML escaping.
@@ -352,12 +341,6 @@ public abstract class XMLReaderBase
         characters(ch, 0, ch.length);
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.XMLReader.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Set the state of a feature.
      * <p/>
@@ -369,13 +352,12 @@ public abstract class XMLReaderBase
      *          When the XMLReader does not recognize the feature name.
      * @throws org.xml.sax.SAXNotSupportedException
      *          When the XMLReader recognizes the feature name but cannot set the requested value.
-     * @see org.xml.sax.XMLReader#setFeature
+     * @see org.xml.sax.XMLReader#setFeature(String, boolean)
      */
     public void setFeature(String name, boolean state)
             throws SAXNotRecognizedException, SAXNotSupportedException {
         throw new SAXNotRecognizedException("Feature: " + name);
     }
-
 
     /**
      * Look up the state of a feature.
@@ -388,13 +370,12 @@ public abstract class XMLReaderBase
      *          When the XMLReader does not recognize the feature name.
      * @throws org.xml.sax.SAXNotSupportedException
      *          When the XMLReader recognizes the feature name but cannot determine its state at this time.
-     * @see org.xml.sax.XMLReader#getFeature
+     * @see org.xml.sax.XMLReader#getFeature(String)
      */
     public boolean getFeature(String name)
             throws SAXNotRecognizedException, SAXNotSupportedException {
         throw new SAXNotRecognizedException("Feature: " + name);
     }
-
 
     /**
      * Set the value of a property.
@@ -402,12 +383,12 @@ public abstract class XMLReaderBase
      * <p>Only lexical-handler properties are recognized.</p>
      *
      * @param name  The property name.
-     * @param state The requested property value.
+     * @param value The requested property value.
      * @throws org.xml.sax.SAXNotRecognizedException
      *          When the XMLReader does not recognize the property name.
      * @throws org.xml.sax.SAXNotSupportedException
      *          When the XMLReader recognizes the property name but cannot set the requested value.
-     * @see org.xml.sax.XMLReader#setProperty
+     * @see org.xml.sax.XMLReader#setProperty(String, Object)
      */
     public void setProperty(String name, Object value)
             throws SAXNotRecognizedException, SAXNotSupportedException {
@@ -420,7 +401,6 @@ public abstract class XMLReaderBase
         throw new SAXNotRecognizedException("Property: " + name);
     }
 
-
     /**
      * Look up the value of a property.
      * <p/>
@@ -432,7 +412,7 @@ public abstract class XMLReaderBase
      *          When the XMLReader does not recognize the feature name.
      * @throws org.xml.sax.SAXNotSupportedException
      *          When the XMLReader recognizes the property name but cannot determine its value at this time.
-     * @see org.xml.sax.XMLReader#setFeature
+     * @see org.xml.sax.XMLReader#setFeature(String, boolean)
      */
     public Object getProperty(String name)
             throws SAXNotRecognizedException, SAXNotSupportedException {
@@ -443,7 +423,6 @@ public abstract class XMLReaderBase
         }
         throw new SAXNotRecognizedException("Property: " + name);
     }
-
 
     /**
      * Parse a document. Subclass must implement.
@@ -456,7 +435,6 @@ public abstract class XMLReaderBase
      */
     public abstract void parse(InputSource input)
             throws SAXException, IOException;
-
 
     /**
      * Parse a document.
@@ -472,13 +450,12 @@ public abstract class XMLReaderBase
         parse(new InputSource(systemId));
     }
 
-
     /**
      * Set the entity resolver.
      *
      * @param resolver The new entity resolver.
      * @throws java.lang.NullPointerException If the resolver is null.
-     * @see org.xml.sax.XMLReader#setEntityResolver
+     * @see org.xml.sax.XMLReader#setEntityResolver(org.xml.sax.EntityResolver)
      */
     public void setEntityResolver(EntityResolver resolver) {
         if (resolver == null) {
@@ -487,7 +464,6 @@ public abstract class XMLReaderBase
             entityResolver = resolver;
         }
     }
-
 
     /**
      * Get the current entity resolver.
@@ -499,13 +475,12 @@ public abstract class XMLReaderBase
         return entityResolver;
     }
 
-
     /**
      * Set the DTD event handler.
      *
-     * @param resolver The new DTD handler.
+     * @param handler The new DTD handler.
      * @throws java.lang.NullPointerException If the handler is null.
-     * @see org.xml.sax.XMLReader#setDTDHandler
+     * @see org.xml.sax.XMLReader#setDTDHandler(org.xml.sax.DTDHandler)
      */
     public void setDTDHandler(DTDHandler handler) {
         if (handler == null) {
@@ -514,7 +489,6 @@ public abstract class XMLReaderBase
             dtdHandler = handler;
         }
     }
-
 
     /**
      * Get the current DTD event handler.
@@ -526,13 +500,12 @@ public abstract class XMLReaderBase
         return dtdHandler;
     }
 
-
     /**
      * Set the content event handler.
      *
-     * @param resolver The new content handler.
+     * @param handler The new content handler.
      * @throws java.lang.NullPointerException If the handler is null.
-     * @see org.xml.sax.XMLReader#setContentHandler
+     * @see org.xml.sax.XMLReader#setContentHandler(org.xml.sax.ContentHandler)
      */
     public void setContentHandler(ContentHandler handler) {
         if (handler == null) {
@@ -541,7 +514,6 @@ public abstract class XMLReaderBase
             contentHandler = handler;
         }
     }
-
 
     /**
      * Get the content event handler.
@@ -553,13 +525,12 @@ public abstract class XMLReaderBase
         return contentHandler;
     }
 
-
     /**
      * Set the error event handler.
      *
-     * @param handle The new error handler.
+     * @param handler The new error handler.
      * @throws java.lang.NullPointerException If the handler is null.
-     * @see org.xml.sax.XMLReader#setErrorHandler
+     * @see org.xml.sax.XMLReader#setErrorHandler(org.xml.sax.ErrorHandler)
      */
     public void setErrorHandler(ErrorHandler handler) {
         if (handler == null) {
@@ -568,7 +539,6 @@ public abstract class XMLReaderBase
             errorHandler = handler;
         }
     }
-
 
     /**
      * Get the current error event handler.
@@ -579,12 +549,6 @@ public abstract class XMLReaderBase
     public ErrorHandler getErrorHandler() {
         return errorHandler;
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Registration of org.xml.sax.ext.LexicalHandler.
-    ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Set the lexical handler.
@@ -600,7 +564,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Get the current lexical handler.
      *
@@ -609,12 +572,6 @@ public abstract class XMLReaderBase
     public LexicalHandler getLexicalHandler() {
         return lexicalHandler;
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.EntityResolver.
-    ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Resolves an external entity.
@@ -625,7 +582,7 @@ public abstract class XMLReaderBase
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
      * @throws java.io.IOException      The client may throw an I/O-related exception while obtaining the new
      *                                  InputSource.
-     * @see org.xml.sax.EntityResolver#resolveEntity
+     * @see org.xml.sax.EntityResolver#resolveEntity(String, String)
      */
     public InputSource resolveEntity(String publicId, String systemId)
             throws SAXException /* IOException added in SAX2.01 bugfix release */ {
@@ -640,12 +597,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.DTDHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Add notation declaration.
      *
@@ -653,7 +604,7 @@ public abstract class XMLReaderBase
      * @param publicId The notation's public identifier, or null.
      * @param systemId The notation's system identifier, or null.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.DTDHandler#notationDecl
+     * @see org.xml.sax.DTDHandler#notationDecl(String, String, String)
      */
     public void notationDecl(String name, String publicId, String systemId)
             throws SAXException {
@@ -661,7 +612,6 @@ public abstract class XMLReaderBase
             dtdHandler.notationDecl(name, publicId, systemId);
         }
     }
-
 
     /**
      * Add unparsed entity declaration.
@@ -671,7 +621,7 @@ public abstract class XMLReaderBase
      * @param systemId     The entity's system identifier, or null.
      * @param notationName The name of the associated notation.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.DTDHandler#unparsedEntityDecl
+     * @see org.xml.sax.DTDHandler#unparsedEntityDecl(String, String, String, String)
      */
     public void unparsedEntityDecl(String name, String publicId,
                                    String systemId, String notationName)
@@ -682,17 +632,11 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.ContentHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Assigns the document locator.
      *
      * @param locator The document locator.
-     * @see org.xml.sax.ContentHandler#setDocumentLocator
+     * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
      */
     public void setDocumentLocator(Locator locator) {
         this.locator = locator;
@@ -700,7 +644,6 @@ public abstract class XMLReaderBase
             contentHandler.setDocumentLocator(locator);
         }
     }
-
 
     /**
      * Send start of document.
@@ -715,7 +658,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Send end of document.
      *
@@ -729,14 +671,13 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends start of namespace prefix mapping.
      *
      * @param prefix The Namespace prefix.
      * @param uri    The Namespace URI.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#startPrefixMapping
+     * @see org.xml.sax.ContentHandler#startPrefixMapping(String, String)
      */
     public void startPrefixMapping(String prefix, String uri)
             throws SAXException {
@@ -745,13 +686,12 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends end of namespace prefix mapping.
      *
      * @param prefix The Namespace prefix.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#endPrefixMapping
+     * @see org.xml.sax.ContentHandler#endPrefixMapping(String)
      */
     public void endPrefixMapping(String prefix)
             throws SAXException {
@@ -759,7 +699,6 @@ public abstract class XMLReaderBase
             contentHandler.endPrefixMapping(prefix);
         }
     }
-
 
     /**
      * Sends start of element.
@@ -769,7 +708,7 @@ public abstract class XMLReaderBase
      * @param qName     The element's qualified (prefixed) name, or the empty string.
      * @param atts      The element's attributes.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
     public void startElement(String uri, String localName, String qName,
                              Attributes atts)
@@ -779,7 +718,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends end of element.
      *
@@ -787,7 +725,7 @@ public abstract class XMLReaderBase
      * @param localName The element's local name, or the empty string.
      * @param qName     The element's qualified (prefixed) name, or the empty string.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#endElement
+     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
@@ -796,7 +734,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends character data.
      *
@@ -804,7 +741,7 @@ public abstract class XMLReaderBase
      * @param start  The starting position in the array.
      * @param length The number of characters to use from the array.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#characters
+     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
      */
     public void characters(char ch[], int start, int length)
             throws SAXException {
@@ -813,7 +750,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends ignorable whitespace.
      *
@@ -821,7 +757,7 @@ public abstract class XMLReaderBase
      * @param start  The starting position in the array.
      * @param length The number of characters to use from the array.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#ignorableWhitespace
+     * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
      */
     public void ignorableWhitespace(char ch[], int start, int length)
             throws SAXException {
@@ -830,14 +766,13 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends processing instruction.
      *
      * @param target The processing instruction target.
      * @param data   The text following the target.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#processingInstruction
+     * @see org.xml.sax.ContentHandler#processingInstruction(String, String)
      */
     public void processingInstruction(String target, String data)
             throws SAXException {
@@ -846,13 +781,12 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends skipped entity.
      *
      * @param name The name of the skipped entity.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ContentHandler#skippedEntity
+     * @see org.xml.sax.ContentHandler#skippedEntity(String)
      */
     public void skippedEntity(String name)
             throws SAXException {
@@ -861,18 +795,12 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.ErrorHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Sends warning.
      *
      * @param e The nwarning as an exception.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ErrorHandler#warning
+     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
      */
     public void warning(SAXParseException e)
             throws SAXException {
@@ -881,13 +809,12 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends error.
      *
      * @param e The error as an exception.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ErrorHandler#error
+     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
      */
     public void error(SAXParseException e)
             throws SAXException {
@@ -896,13 +823,12 @@ public abstract class XMLReaderBase
         }
     }
 
-
     /**
      * Sends fatal error.
      *
      * @param e The error as an exception.
      * @throws org.xml.sax.SAXException The client may throw an exception during processing.
-     * @see org.xml.sax.ErrorHandler#fatalError
+     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
      */
     public void fatalError(SAXParseException e)
             throws SAXException {
@@ -911,12 +837,6 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Implementation of org.xml.sax.ext.LexicalHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Sends start of DTD.
      *
@@ -924,7 +844,7 @@ public abstract class XMLReaderBase
      * @param publicId The declared public identifier for the external DTD subset, or null if none was declared.
      * @param systemId The declared system identifier for the external DTD subset, or null if none was declared.
      * @throws org.xml.sax.SAXException If a filter further down the chain raises an exception.
-     * @see org.xml.sax.ext.LexicalHandler#startDTD
+     * @see org.xml.sax.ext.LexicalHandler#startDTD(String, String, String)
      */
     public void startDTD(String name, String publicId, String systemId)
             throws SAXException {
@@ -932,7 +852,6 @@ public abstract class XMLReaderBase
             lexicalHandler.startDTD(name, publicId, systemId);
         }
     }
-
 
     /**
      * Sends end of DTD.
@@ -947,8 +866,7 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    /*
+   /**
     * Sends start of entity.
     *
     * @param name The name of the entity.  If it is a parameter
@@ -956,7 +874,7 @@ public abstract class XMLReaderBase
     *        external DTD subset, it will be "[dtd]".
     * @exception org.xml.sax.SAXException If a filter
     *            further down the chain raises an exception.
-    * @see org.xml.sax.ext.LexicalHandler#startEntity
+    * @see org.xml.sax.ext.LexicalHandler#startEntity(String)
     */
     public void startEntity(String name)
             throws SAXException {
@@ -965,14 +883,13 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    /*
+    /**
      * Sends end of entity.
      *
      * @param name The name of the entity that is ending.
      * @exception org.xml.sax.SAXException If a filter
      *            further down the chain raises an exception.
-     * @see org.xml.sax.ext.LexicalHandler#endEntity
+     * @see org.xml.sax.ext.LexicalHandler#endEntity(String)
      */
     public void endEntity(String name)
             throws SAXException {
@@ -981,8 +898,7 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    /*
+    /**
      * Sends start of CDATA.
      *
      * @exception org.xml.sax.SAXException If a filter
@@ -996,8 +912,7 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    /*
+   /**
     * Sends end of CDATA.
     *
     * @exception org.xml.sax.SAXException If a filter
@@ -1011,8 +926,7 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    /*
+    /**
      * Sends comment.
      *
      * @param ch An array holding the characters in the comment.
@@ -1020,7 +934,7 @@ public abstract class XMLReaderBase
      * @param length The number of characters to use from the array.
      * @exception org.xml.sax.SAXException If a filter
      *            further down the chain raises an exception.
-     * @see org.xml.sax.ext.LexicalHandler#comment
+     * @see org.xml.sax.ext.LexicalHandler#comment(char[], int, int)
      */
     public void comment(char[] ch, int start, int length)
             throws SAXException {
@@ -1029,32 +943,4 @@ public abstract class XMLReaderBase
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Internal state.
-    ////////////////////////////////////////////////////////////////////
-
-    private Locator locator = null;
-    private EntityResolver entityResolver = null;
-    private DTDHandler dtdHandler = null;
-    private ContentHandler contentHandler = null;
-    private ErrorHandler errorHandler = null;
-    private LexicalHandler lexicalHandler = null;
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Constants.
-    ////////////////////////////////////////////////////////////////////
-
-
-    protected static final Attributes EMPTY_ATTS = new AttributesImpl();
-
-    protected static final String[] LEXICAL_HANDLER_NAMES = {
-            "http://xml.org/sax/properties/lexical-handler",
-            "http://xml.org/sax/handlers/LexicalHandler"
-    };
-
-
 }
-
-// end of XMLReaderBase.java
