@@ -9,30 +9,14 @@
     <packaging>jar</packaging>
 
     <name>CoffeeDOM</name>
+    <description>A tree-based XML API with Java 5 support</description>
     <url>http://coffeedom.googlecode.com</url>
-
-    <!--<profiles>-->
-    <!--<profile>-->
-    <!--<id>samples</id>-->
-    <!--<modules>-->
-    <!--<module>../CoffeeDOM-samples</module>-->
-    <!--</modules>-->
-    <!--</profile>-->
-    <!--</profiles>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyMMddHHmm</maven.build.timestamp.format>
         <buildNumber>${maven.build.timestamp}</buildNumber>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>mvnrepository</id>
-            <url>http://mvnrepository.com</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
