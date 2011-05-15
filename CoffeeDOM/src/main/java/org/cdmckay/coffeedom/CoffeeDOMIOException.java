@@ -3,7 +3,9 @@ package org.cdmckay.coffeedom;
 import java.io.IOException;
 
 /**
- * This is an unchecked version of the Java {@see java.io.IOException} class.
+ * This is an unchecked wrapper for the the Java {@see java.io.IOException} class.
+ *
+ * @author Cameron McKay
  */
 public class CoffeeDOMIOException extends CoffeeDOMException {
 
