@@ -61,7 +61,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
 
-
 /**
  * Base class for implementing an XML reader.
  * <p/>

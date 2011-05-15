@@ -87,13 +87,14 @@ public abstract class XPath
     /**
      * The default implementation class to use if none was configured.
      */
-    private final static String DEFAULT_XPATH_CLASS = "JaxenXPath";
+    private final static String DEFAULT_XPATH_CLASS = "org.cdmckay.coffeedom.xpath.JaxenXPath";
 
     /**
      * The string passable to the JAXP 1.3 XPathFactory isObjectModelSupported() method to query an XPath engine
-     * regarding its support for CoffeeDOM.  Defined to be the well-known URI "http://jdom.org/jaxp/xpath/jdom".
+     * regarding its support for CoffeeDOM.
+     * Defined to be the well-known URI "http://coffeedom.cdmckay.org/jaxp/xpath/jdom".
      */
-    public final static String CoffeeDOM_OBJECT_MODEL_URI = "http://jdom.org/jaxp/xpath/jdom";
+    public final static String COFFEEDOM_OBJECT_MODEL_URI = "http://coffeedom.cdmckay.org/jaxp/xpath/jdom";
 
     /**
      * The constructor to instantiate a new XPath concrete implementation.

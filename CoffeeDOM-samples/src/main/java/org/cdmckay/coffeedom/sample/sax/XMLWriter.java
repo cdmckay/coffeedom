@@ -64,7 +64,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -193,11 +192,16 @@ import java.util.Map;
 public class XMLWriter
         extends XMLFilterBase {
 
+    private Map<String, String> prefixTable;
+    private Map<String, Boolean> forcedDeclTable;
+    private Map<String, String> doneDeclTable;
 
-    ////////////////////////////////////////////////////////////////////
-    // Constructors.
-    ////////////////////////////////////////////////////////////////////
-
+    private boolean openElement = false;
+    private int elementLevel = 0;
+    private Writer output;
+    private NamespaceSupport nsSupport;
+    private int prefixCounter = 0;
+    private boolean inDTD = false;
 
     /**
      * Create a new XML writer.
@@ -207,7 +211,6 @@ public class XMLWriter
     public XMLWriter() {
         init(null);
     }
-
 
     /**
      * Create a new XML writer.
@@ -221,20 +224,18 @@ public class XMLWriter
         init(writer);
     }
 
-
     /**
      * Create a new XML writer.
      *
      * <p>Use the specified XML reader as the parent.</p>
      *
-     * @param xmlreader The parent in the filter chain, or null
+     * @param xmlReader The parent in the filter chain, or null
      *        for no parent.
      */
-    public XMLWriter(XMLReader xmlreader) {
-        super(xmlreader);
+    public XMLWriter(XMLReader xmlReader) {
+        super(xmlReader);
         init(null);
     }
-
 
     /**
      * Create a new XML writer.
@@ -242,21 +243,20 @@ public class XMLWriter
      * <p>Use the specified XML reader as the parent, and write
      * to the specified writer.</p>
      *
-     * @param xmlreader The parent in the filter chain, or null
+     * @param xmlReader The parent in the filter chain, or null
      *        for no parent.
      * @param writer The output destination, or null to use standard
      *        output.
      */
-    public XMLWriter(XMLReader xmlreader, Writer writer) {
-        super(xmlreader);
+    public XMLWriter(XMLReader xmlReader, Writer writer) {
+        super(xmlReader);
         init(writer);
     }
-
 
     /**
      * Internal initialization method.
      *
-     * <p>All of the public constructors invoke this method.
+     * <p>All of the public constructors invoke this method.</p>
      *
      * @param writer The output destination, or null to use
      *        standard output.
@@ -264,16 +264,10 @@ public class XMLWriter
     private void init(Writer writer) {
         setOutput(writer);
         nsSupport = new NamespaceSupport();
-        prefixTable = new HashMap();
-        forcedDeclTable = new HashMap();
-        doneDeclTable = new HashMap();
+        prefixTable = new HashMap<String, String>();
+        forcedDeclTable = new HashMap<String, Boolean>();
+        doneDeclTable = new HashMap<String, String>();
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Public methods.
-    ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Reset the writer.
@@ -302,7 +296,6 @@ public class XMLWriter
         inDTD = false;
     }
 
-
     /**
      * Flush the output.
      *
@@ -316,19 +309,16 @@ public class XMLWriter
      * document.</p>
      *
      * @see #reset
+     * @throws java.io.IOException
      */
-    public void flush()
-            throws IOException {
+    public void flush() throws IOException {
         output.flush();
     }
-
 
     /**
      * Set a new output destination for the document.
      *
-     * @param writer The output destination, or null to use
-     *        standard output.
-     * @return The current output writer.
+     * @param writer The output destination, or null to use standard output.
      * @see #flush
      */
     public void setOutput(Writer writer) {
@@ -338,7 +328,6 @@ public class XMLWriter
             output = writer;
         }
     }
-
 
     /**
      * Specify a preferred prefix for a Namespace URI.
@@ -358,7 +347,6 @@ public class XMLWriter
         prefixTable.put(uri, prefix);
     }
 
-
     /**
      * Get the current or preferred prefix for a Namespace URI.
      *
@@ -367,9 +355,8 @@ public class XMLWriter
      * @see #setPrefix(String, String)
      */
     public String getPrefix(String uri) {
-        return (String) prefixTable.get(uri);
+        return prefixTable.get(uri);
     }
-
 
     /**
      * Force a Namespace to be declared on the root element.
@@ -388,9 +375,8 @@ public class XMLWriter
      * @see #setPrefix(String, String)
      */
     public void forceNSDecl(String uri) {
-        forcedDeclTable.put(uri, Boolean.TRUE);
+        forcedDeclTable.put(uri, true);
     }
-
 
     /**
      * Force a Namespace declaration with a preferred prefix.
@@ -410,12 +396,6 @@ public class XMLWriter
         forceNSDecl(uri);
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Methods from org.xml.sax.ContentHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Write the XML declaration at the beginning of the document.
      *
@@ -426,14 +406,12 @@ public class XMLWriter
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#startDocument
      */
-    public void startDocument()
-            throws SAXException {
+    public void startDocument() throws SAXException {
         reset();
         //write("<?xml version=\"1.0\" standalone=\"yes\"?>\n\n");
         write("<?xml version=\"1.0\"?>\n\n");
         super.startDocument();
     }
-
 
     /**
      * Write a newline at the end of the document.
@@ -445,8 +423,7 @@ public class XMLWriter
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#endDocument
      */
-    public void endDocument()
-            throws SAXException {
+    public void endDocument() throws SAXException {
         closeElement();
         write('\n');
         super.endDocument();
@@ -456,7 +433,6 @@ public class XMLWriter
             throw new SAXException(e);
         }
     }
-
 
     /**
      * Write a start tag.
@@ -471,29 +447,26 @@ public class XMLWriter
      *        use the qName as a template for generating a prefix
      *        if necessary, but it is not guaranteed to use the
      *        same qName.
-     * @param atts The element's attribute list (must not be null).
+     * @param attributes The element's attribute list (must not be null).
      * @exception org.xml.sax.SAXException If there is an error
      *            writing the start tag, or if a handler further down
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
      */
-    public void startElement(String uri, String localName,
-                             String qName, Attributes atts)
-            throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         closeElement();
         elementLevel++;
         nsSupport.pushContext();
         write('<');
         writeName(uri, localName, qName, true);
-        writeAttributes(atts);
+        writeAttributes(attributes);
         if (elementLevel == 1) {
             forceNSDecls();
         }
         writeNSDecls();
         openElement = true;
-        super.startElement(uri, localName, qName, atts);
+        super.startElement(uri, localName, qName, attributes);
     }
-
 
     /**
      * Write an end tag.
@@ -513,8 +486,7 @@ public class XMLWriter
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#endElement(String, String, String)
      */
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
+    public void endElement(String uri, String localName, String qName) throws SAXException {
         if (openElement) {
             write("/>");
             openElement = false;
@@ -531,7 +503,6 @@ public class XMLWriter
         elementLevel--;
     }
 
-
     /**
      * Write character data.
      *
@@ -545,13 +516,11 @@ public class XMLWriter
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#characters(char[], int, int)
      */
-    public void characters(char ch[], int start, int length)
-            throws SAXException {
+    public void characters(char ch[], int start, int length) throws SAXException {
         closeElement();
         writeEsc(ch, start, length, false);
         super.characters(ch, start, length);
     }
-
 
     /**
      * Write ignorable whitespace.
@@ -566,13 +535,11 @@ public class XMLWriter
      *            the filter chain raises an exception.
      * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
      */
-    public void ignorableWhitespace(char ch[], int start, int length)
-            throws SAXException {
+    public void ignorableWhitespace(char ch[], int start, int length) throws SAXException {
         closeElement();
         writeEsc(ch, start, length, false);
         super.ignorableWhitespace(ch, start, length);
     }
-
 
     /**
      * Write a processing instruction.
@@ -600,12 +567,6 @@ public class XMLWriter
         super.processingInstruction(target, data);
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Methods from org.xml.sax.ext.LexicalHandler.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Write start of DOCTYPE declaration.
      *
@@ -620,8 +581,7 @@ public class XMLWriter
      *            further down the chain raises an exception.
      * @see org.xml.sax.ext.LexicalHandler#startDTD(String, String, String)
      */
-    public void startDTD(String name, String publicId, String systemId)
-            throws SAXException {
+    public void startDTD(String name, String publicId, String systemId) throws SAXException {
         //closeElement();
         inDTD = true;
         write("<!DOCTYPE ");
@@ -644,7 +604,6 @@ public class XMLWriter
         super.startDTD(name, publicId, systemId);
     }
 
-
     /**
      * Write end of DOCTYPE declaration.
      *
@@ -654,12 +613,10 @@ public class XMLWriter
      *            further down the chain raises an exception.
      * @see org.xml.sax.ext.LexicalHandler#endDTD
      */
-    public void endDTD()
-            throws SAXException {
+    public void endDTD() throws SAXException {
         inDTD = false;
         super.endDTD();
     }
-
 
     /*
     * Write entity.
@@ -673,15 +630,13 @@ public class XMLWriter
     *            further down the chain raises an exception.
     * @see org.xml.sax.ext.LexicalHandler#startEntity
     */
-    public void startEntity(String name)
-            throws SAXException {
+    public void startEntity(String name) throws SAXException {
         closeElement();
         write('&');
         write(name);
         write(';');
         super.startEntity(name);
     }
-
 
     /*
      * Filter a end entity event.
@@ -693,11 +648,9 @@ public class XMLWriter
      *            further down the chain raises an exception.
      * @see org.xml.sax.ext.LexicalHandler#endEntity
      */
-    public void endEntity(String name)
-            throws SAXException {
+    public void endEntity(String name) throws SAXException {
         super.endEntity(name);
     }
-
 
     /*
      * Write start of CDATA.
@@ -708,13 +661,11 @@ public class XMLWriter
      *            further down the chain raises an exception.
      * @see org.xml.sax.ext.LexicalHandler#startCDATA
      */
-    public void startCDATA()
-            throws SAXException {
+    public void startCDATA() throws SAXException {
         closeElement();
         write("<![CDATA[");
         super.startCDATA();
     }
-
 
     /*
     * Write end of CDATA.
@@ -725,12 +676,10 @@ public class XMLWriter
     *            further down the chain raises an exception.
     * @see org.xml.sax.ext.LexicalHandler#endCDATA
     */
-    public void endCDATA()
-            throws SAXException {
+    public void endCDATA() throws SAXException {
         write("]]>");
         super.endCDATA();
     }
-
 
     /*
      * Write a comment.
@@ -744,8 +693,7 @@ public class XMLWriter
      *            further down the chain raises an exception.
      * @see org.xml.sax.ext.LexicalHandler#comment
      */
-    public void comment(char[] ch, int start, int length)
-            throws SAXException {
+    public void comment(char[] ch, int start, int length) throws SAXException {
         if (!inDTD) {
             closeElement();
             write("<!--");
@@ -758,12 +706,6 @@ public class XMLWriter
         super.comment(ch, start, length);
     }
 
-
-    ////////////////////////////////////////////////////////////////////
-    // Internal methods.
-    ////////////////////////////////////////////////////////////////////
-
-
     /**
      * Force all Namespaces to be declared.
      *
@@ -771,13 +713,10 @@ public class XMLWriter
      * the predeclared Namespaces all appear.
      */
     private void forceNSDecls() {
-        Iterator prefixes = forcedDeclTable.keySet().iterator();
-        while (prefixes.hasNext()) {
-            String prefix = (String) prefixes.next();
+        for (String prefix : forcedDeclTable.keySet()) {
             doPrefix(prefix, null, true);
         }
     }
-
 
     /**
      * Determine the prefix for an element or attribute name.
@@ -791,6 +730,7 @@ public class XMLWriter
      * @param isElement true if this is an element name, false
      *        if it is an attribute name (which cannot use the
      *        default Namespace).
+     * @return
      */
     private String doPrefix(String uri, String qName, boolean isElement) {
         String defaultNS = nsSupport.getURI("");
@@ -809,14 +749,14 @@ public class XMLWriter
         if (prefix != null) {
             return prefix;
         }
-        prefix = (String) doneDeclTable.get(uri);
+        prefix = doneDeclTable.get(uri);
         if (prefix != null &&
                 ((!isElement || defaultNS != null) &&
                         "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
             prefix = null;
         }
         if (prefix == null) {
-            prefix = (String) prefixTable.get(uri);
+            prefix = prefixTable.get(uri);
             if (prefix != null &&
                     ((!isElement || defaultNS != null) &&
                             "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
@@ -843,7 +783,6 @@ public class XMLWriter
         return prefix;
     }
 
-
     /**
      * Write a raw character.
      *
@@ -861,7 +800,6 @@ public class XMLWriter
         }
     }
 
-
     /**
      * Write a portion of an array of characters.
      *
@@ -872,15 +810,13 @@ public class XMLWriter
      *            the character, this method will throw an IOException
      *            wrapped in a SAXException.
      */
-    private void write(char[] cbuf, int off, int len)
-            throws SAXException {
+    private void write(char[] cbuf, int off, int len) throws SAXException {
         try {
             output.write(cbuf, off, len);
         } catch (IOException e) {
             throw new SAXException(e);
         }
     }
-
 
     /**
      * Write a raw string.
@@ -890,8 +826,7 @@ public class XMLWriter
      *            the string, this method will throw an IOException
      *            wrapped in a SAXException
      */
-    private void write(String s)
-            throws SAXException {
+    private void write(String s) throws SAXException {
         try {
             output.write(s);
         } catch (IOException e) {
@@ -899,31 +834,29 @@ public class XMLWriter
         }
     }
 
-
     /**
      * Write out an attribute list, escaping values.
      *
      * The names will have prefixes added to them.
      *
-     * @param atts The attribute list to write.
+     * @param attributes The attribute list to write.
      * @exception org.xml.sax.SAXException If there is an error writing
      *            the attribute list, this method will throw an
      *            IOException wrapped in a SAXException.
      */
-    private void writeAttributes(Attributes atts)
+    private void writeAttributes(Attributes attributes)
             throws SAXException {
-        int len = atts.getLength();
+        int len = attributes.getLength();
         for (int i = 0; i < len; i++) {
-            char ch[] = atts.getValue(i).toCharArray();
+            char ch[] = attributes.getValue(i).toCharArray();
             write(' ');
-            writeName(atts.getURI(i), atts.getLocalName(i),
-                    atts.getQName(i), false);
+            writeName(attributes.getURI(i), attributes.getLocalName(i),
+                    attributes.getQName(i), false);
             write("=\"");
             writeEsc(ch, 0, ch.length, true);
             write('"');
         }
     }
-
 
     /**
      * Write an array of data characters with escaping.
@@ -969,7 +902,6 @@ public class XMLWriter
         }
     }
 
-
     /**
      * Write out the list of Namespace declarations.
      *
@@ -1001,7 +933,6 @@ public class XMLWriter
         }
     }
 
-
     /**
      * Write an element or attribute name.
      *
@@ -1025,34 +956,14 @@ public class XMLWriter
         write(localName);
     }
 
-
     /**
      * If start element tag is still open, write closing bracket.
      * @throws org.xml.sax.SAXException
      */
-    private void closeElement()
-            throws SAXException {
+    private void closeElement() throws SAXException {
         if (openElement) {
             write('>');
             openElement = false;
         }
     }
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Internal state.
-    ////////////////////////////////////////////////////////////////////
-
-    private Map prefixTable;
-    private Map forcedDeclTable;
-    private Map doneDeclTable;
-    private boolean openElement = false;
-    private int elementLevel = 0;
-    private Writer output;
-    private NamespaceSupport nsSupport;
-    private int prefixCounter = 0;
-    private boolean inDTD = false;
-
 }
-
-// end of XMLWriter.java
