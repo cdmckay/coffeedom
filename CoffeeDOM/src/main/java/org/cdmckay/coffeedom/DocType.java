@@ -242,7 +242,7 @@ public class DocType
     }
 
     /**
-     * According to the XML specification, DocType declarations can only children of documents.
+     * Get the parent of the DocType, which has to be a {@see Document} (or null).
      * @return The {@see Document} that the DocType is attached to.
      */
     @Override

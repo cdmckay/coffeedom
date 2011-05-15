@@ -67,14 +67,6 @@ import java.util.EnumSet;
  *      List&lt;Content&gt; content = x.getContents(filter);
  * </code></pre>
  * <p/>
- * For those who don't like enum sets, set methods are provided as an alternative.  For example to allow everything
- * except Comment nodes.
- * <pre><code>
- *      Filter filter =  new ContentFilter();
- *      filter.setCommentVisible(false);
- *      List&lt;Content&gt; content = x.getContents(filter);
- * </code></pre>
- * <p/>
  * The default is to allow all valid CoffeeDOM objects.
  *
  * @author Bradley S. Huffman
