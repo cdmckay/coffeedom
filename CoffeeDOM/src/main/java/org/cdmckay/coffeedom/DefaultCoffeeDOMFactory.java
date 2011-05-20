@@ -74,7 +74,7 @@ public class DefaultCoffeeDOMFactory
         return new Attribute(name, value, namespace);
     }
 
-    public Attribute attribute(String name, String value, Attribute.AttributeType type, Namespace namespace) {
+    public Attribute attribute(String name, String value, Attribute.Type type, Namespace namespace) {
         return new Attribute(name, value, type, namespace);
     }
 
@@ -82,7 +82,7 @@ public class DefaultCoffeeDOMFactory
         return new Attribute(name, value);
     }
 
-    public Attribute attribute(String name, String value, Attribute.AttributeType type) {
+    public Attribute attribute(String name, String value, Attribute.Type type) {
         return new Attribute(name, value, type);
     }
 

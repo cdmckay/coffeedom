@@ -110,7 +110,7 @@ public class UncheckedCoffeeDOMFactory
         return a;
     }
 
-    public Attribute attribute(String name, String value, Attribute.AttributeType type, Namespace namespace) {
+    public Attribute attribute(String name, String value, Attribute.Type type, Namespace namespace) {
         Attribute a = new Attribute();
         a.name = name;
         a.type = type;
@@ -130,7 +130,7 @@ public class UncheckedCoffeeDOMFactory
         return a;
     }
 
-    public Attribute attribute(String name, String value, Attribute.AttributeType type) {
+    public Attribute attribute(String name, String value, Attribute.Type type) {
         Attribute a = new Attribute();
         a.name = name;
         a.type = type;

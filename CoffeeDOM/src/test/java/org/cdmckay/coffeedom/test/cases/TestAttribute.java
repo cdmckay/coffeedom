@@ -121,7 +121,7 @@ public final class TestAttribute
         final Attribute attribute = new Attribute("test", "value");
         assertTrue("incorrect attribute name", attribute.getName().equals("test"));
         assertTrue("incorrect attribute value", attribute.getValue().equals("value"));
-        assertEquals("incorrect attribute type", attribute.getAttributeType(), Attribute.AttributeType.UNDECLARED);
+        assertEquals("incorrect attribute type", attribute.getAttributeType(), Attribute.Type.UNDECLARED);
 
         //should have been put in the NO_NAMESPACE namespace
         assertTrue("incorrect namespace", attribute.getNamespace().equals(Namespace.NO_NAMESPACE));
@@ -169,7 +169,7 @@ public final class TestAttribute
             assertTrue("incorrect attribute value", attribute.getValue().equals("value"));
             assertTrue("incorrect Namespace", attribute.getNamespace().equals(namespace));
 
-            assertEquals("incorrect attribute type", attribute.getAttributeType(), Attribute.AttributeType.UNDECLARED);
+            assertEquals("incorrect attribute type", attribute.getAttributeType(), Attribute.Type.UNDECLARED);
         }
 
         //now test that the attribute cannot be created with a namespace
@@ -403,32 +403,32 @@ public final class TestAttribute
     public void test_TCM__Object_clone() {
         TCM__Object_clone__default();
 
-        TCM__Object_clone__attributeType(Attribute.AttributeType.UNDECLARED);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.CDATA);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.ID);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.IDREF);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.IDREFS);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.ENTITY);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.ENTITIES);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.NMTOKEN);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.NMTOKENS);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.NOTATION);
-        TCM__Object_clone__attributeType(Attribute.AttributeType.ENUMERATED);
+        TCM__Object_clone__attributeType(Attribute.Type.UNDECLARED);
+        TCM__Object_clone__attributeType(Attribute.Type.CDATA);
+        TCM__Object_clone__attributeType(Attribute.Type.ID);
+        TCM__Object_clone__attributeType(Attribute.Type.IDREF);
+        TCM__Object_clone__attributeType(Attribute.Type.IDREFS);
+        TCM__Object_clone__attributeType(Attribute.Type.ENTITY);
+        TCM__Object_clone__attributeType(Attribute.Type.ENTITIES);
+        TCM__Object_clone__attributeType(Attribute.Type.NMTOKEN);
+        TCM__Object_clone__attributeType(Attribute.Type.NMTOKENS);
+        TCM__Object_clone__attributeType(Attribute.Type.NOTATION);
+        TCM__Object_clone__attributeType(Attribute.Type.ENUMERATED);
 
 
         TCM__Object_clone__Namespace_default();
 
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.UNDECLARED);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.CDATA);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.ID);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.IDREF);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.IDREFS);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.ENTITY);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.ENTITIES);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.NMTOKEN);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.NMTOKENS);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.NOTATION);
-        TCM__Object_clone__Namespace_attributeType(Attribute.AttributeType.ENUMERATED);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.UNDECLARED);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.CDATA);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.ID);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.IDREF);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.IDREFS);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.ENTITY);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.ENTITIES);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.NMTOKEN);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.NMTOKENS);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.NOTATION);
+        TCM__Object_clone__Namespace_attributeType(Attribute.Type.ENUMERATED);
     }
 
     /**
@@ -444,14 +444,14 @@ public final class TestAttribute
         assertTrue("incorrect name in clone", clonedAttribute.getName().equals(attributeName));
         assertTrue("incorrect value in clone", clonedAttribute.getValue().equals(attributeValue));
         assertEquals("incorrect attribute type in clone", clonedAttribute.getAttributeType(),
-                Attribute.AttributeType.UNDECLARED);
+                Attribute.Type.UNDECLARED);
     }
 
     /**
      * Test that an Attribute can clone itself correctly. The test covers the simple case with only name, value and a
      * given attribute type.
      */
-    private void TCM__Object_clone__attributeType(final Attribute.AttributeType attributeType) {
+    private void TCM__Object_clone__attributeType(final Attribute.Type attributeType) {
         final String attributeName = "test";
         final String attributeValue = "value";
 
@@ -482,7 +482,7 @@ public final class TestAttribute
         assertTrue("incorrect name in clone", clonedAttribute.getName().equals(attributeName));
         assertTrue("incorrect value in clone", clonedAttribute.getValue().equals(attributeValue));
         assertEquals("incorrect attribute type in clone", clonedAttribute.getAttributeType(),
-                Attribute.AttributeType.UNDECLARED);
+                Attribute.Type.UNDECLARED);
 
         assertTrue("incorrect prefix in clone", clonedAttribute.getNamespacePrefix().equals(prefix));
         assertTrue("incorrect qualified name in clone",
@@ -494,7 +494,7 @@ public final class TestAttribute
      * Test that an Attribute can clone itself correctly. The test covers the case with name, value, prefix, namespace
      * and a given attribute type.
      */
-    private void TCM__Object_clone__Namespace_attributeType(final Attribute.AttributeType attributeType) {
+    private void TCM__Object_clone__Namespace_attributeType(final Attribute.Type attributeType) {
         final String prefix = "prefx";
         final String uri = "http://some.other.place";
 
@@ -716,7 +716,7 @@ public final class TestAttribute
         assertTrue("incorrect name in serialized attribute", serializedAttribute.getName().equals(attributeName));
         assertTrue("incorrect value in serialized attribute", serializedAttribute.getValue().equals(attributeValue));
         assertEquals("incorrect attribute type in serialized attribute", serializedAttribute.getAttributeType(),
-                Attribute.AttributeType.UNDECLARED);
+                Attribute.Type.UNDECLARED);
 
         assertEquals("incorrect Namespace in serialized attribute", serializedAttribute.getNamespace(),
                 Namespace.NO_NAMESPACE);
@@ -738,7 +738,7 @@ public final class TestAttribute
         assertTrue("incorrect name in serialized attribute", serializedAttribute.getName().equals(attributeName));
         assertTrue("incorrect value in serialized attribute", serializedAttribute.getValue().equals(attributeValue));
         assertEquals("incorrect attribute type in serialized attribute", serializedAttribute.getAttributeType(),
-                Attribute.AttributeType.UNDECLARED);
+                Attribute.Type.UNDECLARED);
 
         assertTrue("incorrect prefix in serialized attribute", serializedAttribute.getNamespacePrefix().equals(prefix));
         assertTrue("incorrect qualified name in serialized attribute",

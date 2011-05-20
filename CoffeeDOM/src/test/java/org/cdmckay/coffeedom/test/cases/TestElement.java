@@ -1098,23 +1098,23 @@ public final class TestElement extends junit.framework.TestCase {
      * Test addAttribute with a supplied name and value
      */
     public void test_setAttribute_String_String__attributeTypes() {
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.UNDECLARED);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.CDATA);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.ID);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.IDREF);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.IDREFS);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.ENTITY);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.ENTITIES);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.NMTOKEN);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.NMTOKENS);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.NOTATION);
-        test_setAttribute_String_String__attributeType(Attribute.AttributeType.ENUMERATED);
+        test_setAttribute_String_String__attributeType(Attribute.Type.UNDECLARED);
+        test_setAttribute_String_String__attributeType(Attribute.Type.CDATA);
+        test_setAttribute_String_String__attributeType(Attribute.Type.ID);
+        test_setAttribute_String_String__attributeType(Attribute.Type.IDREF);
+        test_setAttribute_String_String__attributeType(Attribute.Type.IDREFS);
+        test_setAttribute_String_String__attributeType(Attribute.Type.ENTITY);
+        test_setAttribute_String_String__attributeType(Attribute.Type.ENTITIES);
+        test_setAttribute_String_String__attributeType(Attribute.Type.NMTOKEN);
+        test_setAttribute_String_String__attributeType(Attribute.Type.NMTOKENS);
+        test_setAttribute_String_String__attributeType(Attribute.Type.NOTATION);
+        test_setAttribute_String_String__attributeType(Attribute.Type.ENUMERATED);
     }
 
     /**
      * Test setAttribute with a supplied name and value
      */
-    private void test_setAttribute_String_String__attributeType(final Attribute.AttributeType attributeType) {
+    private void test_setAttribute_String_String__attributeType(final Attribute.Type attributeType) {
         final Element element = new Element("el");
 
         final String attributeName = "name";
@@ -1148,17 +1148,17 @@ public final class TestElement extends junit.framework.TestCase {
      * Test addAttribute with a supplied name and value
      */
     public void test_setAttribute_String_String_String__attributeTypes() {
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.UNDECLARED);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.CDATA);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.ID);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.IDREF);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.IDREFS);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.ENTITY);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.ENTITIES);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.NMTOKEN);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.NMTOKENS);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.NOTATION);
-        test_setAttribute_String_String_String__attributeType(Attribute.AttributeType.ENUMERATED);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.UNDECLARED);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.CDATA);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.ID);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.IDREF);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.IDREFS);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.ENTITY);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.ENTITIES);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.NMTOKEN);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.NMTOKENS);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.NOTATION);
+        test_setAttribute_String_String_String__attributeType(Attribute.Type.ENUMERATED);
     }
 
     /**
@@ -1166,7 +1166,7 @@ public final class TestElement extends junit.framework.TestCase {
      *
      * @author Victor Toni
      */
-    private void test_setAttribute_String_String_String__attributeType(final Attribute.AttributeType attributeType) {
+    private void test_setAttribute_String_String_String__attributeType(final Attribute.Type attributeType) {
         try {
             final Namespace defaultNamespace = Namespace.getNamespace(null, "http://test.org/default");
             test_setAttribute_String_String_String__attributeType(defaultNamespace, attributeType);
@@ -1184,7 +1184,7 @@ public final class TestElement extends junit.framework.TestCase {
      *
      * @author Victor Toni
      */
-    private void test_setAttribute_String_String_String__attributeType(final Namespace namespace, final Attribute.AttributeType attributeType) {
+    private void test_setAttribute_String_String_String__attributeType(final Namespace namespace, final Attribute.Type attributeType) {
         final Element element = new Element("el");
 
         final String attributeName = "name";

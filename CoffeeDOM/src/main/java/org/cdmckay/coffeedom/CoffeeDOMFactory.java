@@ -84,13 +84,13 @@ public interface CoffeeDOMFactory {
      * This will create a new <code>Attribute</code> with the specified (local) name, value, and type, and in the
      * provided <code>{@link org.cdmckay.coffeedom.Namespace}</code>.
      *
-     * @param name      <code>String</code> name of <code>Attribute</code>.
-     * @param value     <code>String</code> value for new attribute.
-     * @param type      <code>AttributeType</code> type for new attribute.
-     * @param namespace <code>Namespace</code> namespace for new attribute.
+     * @param name      name of <code>Attribute</code>.
+     * @param value     value for new attribute.
+     * @param type      type for new attribute.
+     * @param namespace namespace for new attribute.
      * @return
      */
-    public Attribute attribute(String name, String value, Attribute.AttributeType type, Namespace namespace);
+    public Attribute attribute(String name, String value, Attribute.Type type, Namespace namespace);
 
     /**
      * This will create a new <code>Attribute</code> with the specified (local) name and value, and does not place the
@@ -110,12 +110,12 @@ public interface CoffeeDOMFactory {
      * puts the <code>Attribute</code> in the "empty" <code>Namespace</code> (<code>{@link
      * org.cdmckay.coffeedom.Namespace#NO_NAMESPACE}</code>). </p>
      *
-     * @param name  <code>String</code> name of <code>Attribute</code>.
-     * @param value <code>String</code> value for new attribute.
-     * @param type  <code>AttributeType</code> type for new attribute.
+     * @param name  name of <code>Attribute</code>.
+     * @param value value for new attribute.
+     * @param type  type for new attribute.
      * @return
      */
-    public Attribute attribute(String name, String value, Attribute.AttributeType type);
+    public Attribute attribute(String name, String value, Attribute.Type type);
 
     // **** constructing CDATA ****
 

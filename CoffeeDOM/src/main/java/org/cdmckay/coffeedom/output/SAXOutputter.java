@@ -1026,8 +1026,8 @@ public class SAXOutputter {
      * @see org.cdmckay.coffeedom.Attribute#getAttributeType
      * @see org.xml.sax.Attributes#getType(String)
      */
-    private static String getAttributeTypeName(Attribute.AttributeType type) {
-        return type == null ? Attribute.AttributeType.UNDECLARED.toString() : type.toString();
+    private static String getAttributeTypeName(Attribute.Type type) {
+        return type == null ? Attribute.Type.UNDECLARED.toString() : type.toString();
     }
 
     /**

@@ -73,7 +73,7 @@ import java.io.Serializable;
 public class Attribute
         implements Serializable, Cloneable {
 
-    public enum AttributeType {
+    public enum Type {
         /**
          * Attribute type: the attribute has not been declared or type is unknown.
          *
@@ -174,7 +174,7 @@ public class Attribute
     /**
      * The type of the <code>Attribute</code>
      */
-    protected AttributeType type = AttributeType.UNDECLARED;
+    protected Type type = Type.UNDECLARED;
 
     /**
      * Parent element, or null if none
@@ -200,7 +200,7 @@ public class Attribute
      *                              org.cdmckay.coffeedom.Verifier#checkCharacterData(String)}).
      */
     public Attribute(final String name, final String value, final Namespace namespace) {
-        this(name, value, AttributeType.UNDECLARED, namespace);
+        this(name, value, Type.UNDECLARED, namespace);
     }
 
     /**
@@ -217,7 +217,7 @@ public class Attribute
      *                              org.cdmckay.coffeedom.Verifier#checkCharacterData(String)}) or if the given attribute
      *                              type is not one of the supported types.
      */
-    public Attribute(final String name, final String value, final AttributeType type, final Namespace namespace) {
+    public Attribute(final String name, final String value, final Type type, final Namespace namespace) {
         setName(name);
         setValue(value);
         setAttributeType(type);
@@ -238,7 +238,7 @@ public class Attribute
      *                              org.cdmckay.coffeedom.Verifier#checkCharacterData(String)}).
      */
     public Attribute(final String name, final String value) {
-        this(name, value, Attribute.AttributeType.UNDECLARED, Namespace.NO_NAMESPACE);
+        this(name, value, Type.UNDECLARED, Namespace.NO_NAMESPACE);
     }
 
     /**
@@ -248,15 +248,15 @@ public class Attribute
      * <b>Note</b>: This actually explicitly puts the <code>Attribute</code> in the "empty" <code>Namespace</code>
      * (<code>{@link Namespace#NO_NAMESPACE}</code>).
      *
-     * @param name  <code>String</code> name of <code>Attribute</code>.
-     * @param value <code>String</code> value for new attribute.
-     * @param type  <code>AttributeType</code> type for new attribute.
+     * @param name  name of <code>Attribute</code>.
+     * @param value value for new attribute.
+     * @param type  type for new attribute.
      * @throws IllegalNameException if the given name is illegal as an attribute name.
      * @throws IllegalDataException if the given attribute value is illegal character data (as determined by {@link
      *                              org.cdmckay.coffeedom.Verifier#checkCharacterData(String)}) or if the given attribute
      *                              type is not one of the supported types.
      */
-    public Attribute(final String name, final String value, final AttributeType type) {
+    public Attribute(final String name, final String value, final Type type) {
         this(name, value, type, Namespace.NO_NAMESPACE);
     }
 
@@ -451,9 +451,9 @@ public class Attribute
     /**
      * This will return the actual declared type of this <code>Attribute</code>.
      *
-     * @return <code>AttributeType</code> - type for this attribute.
+     * @return type for this attribute.
      */
-    public AttributeType getAttributeType() {
+    public Type getAttributeType() {
         return type;
     }
 
@@ -464,7 +464,7 @@ public class Attribute
      * @return <code>Attribute</code> - this Attribute modified.
      * @throws IllegalDataException if the given attribute type is not one of the supported types.
      */
-    public Attribute setAttributeType(final AttributeType type) {
+    public Attribute setAttributeType(final Type type) {
         if (type == null) {
             throw new IllegalArgumentException("Attribute type cannot be null");
         }

@@ -501,7 +501,7 @@ public class SAXHandler
 
             String attributeLocalName = attributes.getLocalName(i);
             String attributeQName = attributes.getQName(i);
-            Attribute.AttributeType attType = getAttributeType(attributes.getType(i));
+            Attribute.Type attType = getAttributeType(attributes.getType(i));
 
             // Bypass any xmlns attributes which might appear, as we got
             // them already in startPrefixMapping().
@@ -887,21 +887,21 @@ public class SAXHandler
      *
      * @param typeName <code>String</code> the SAX 2.0 attribute type string.
      * @return <code>int</code> the CoffeeDOM attribute type.
-     * @see Attribute#setAttributeType(org.cdmckay.coffeedom.Attribute.AttributeType)
+     * @see Attribute#setAttributeType(org.cdmckay.coffeedom.Attribute.Type)
      * @see Attributes#getType(int)
      */
-    private static Attribute.AttributeType getAttributeType(String typeName) {
-        Attribute.AttributeType type;
+    private static Attribute.Type getAttributeType(String typeName) {
+        Attribute.Type type;
         try {
-            type = Attribute.AttributeType.valueOf(typeName);
+            type = Attribute.Type.valueOf(typeName);
         } catch (IllegalArgumentException e) {
             if (typeName != null && typeName.length() > 0 && typeName.charAt(0) == '(') {
                 // Xerces 1.4.X reports attributes of enumerated type with
                 // a type string equals to the enumeration definition, i.e.
                 // starting with a parenthesis.
-                type = Attribute.AttributeType.ENUMERATED;
+                type = Attribute.Type.ENUMERATED;
             } else {
-                type = Attribute.AttributeType.UNDECLARED;
+                type = Attribute.Type.UNDECLARED;
             }
         }
         return type;
