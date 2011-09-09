@@ -11,7 +11,7 @@
 
     <groupId>org.cdmckay.coffeedom</groupId>
     <artifactId>coffeedom</artifactId>
-    <version>1.0-beta2</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>CoffeeDOM</name>
