@@ -10,7 +10,7 @@
 
     <groupId>org.cdmckay.coffeedom</groupId>
     <artifactId>coffeedom</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>CoffeeDOM</name>
