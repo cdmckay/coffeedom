@@ -61,6 +61,7 @@ import org.cdmckay.coffeedom.filter.Filter;
 import org.cdmckay.coffeedom.input.SAXBuilder;
 import org.cdmckay.coffeedom.output.XMLOutputter;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 /**
@@ -79,49 +80,53 @@ public class DescendantDemo {
             return;
         }
 
-        SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(args[0]);
+        try {
+            SAXBuilder builder = new SAXBuilder();
+            Document doc = builder.build(args[0]);
 
-        System.out.println("All content:");
-        for (Content descendant : doc.getDescendants()) {
-            System.out.println(descendant);
+            System.out.println("All content:");
+            for (Content descendant : doc.getDescendants()) {
+                System.out.println(descendant);
+            }
+
+            System.out.println();
+            System.out.println("All elements:");
+            for (Content elementDescendants : doc.getDescendants(new ElementFilter())) {
+                System.out.println(elementDescendants);
+            }
+
+            System.out.println();
+            System.out.println("All non-elements:");
+            for (Content nonElementDescendants : doc.getDescendants(new ElementFilter().negate())) {
+                System.out.println(nonElementDescendants);
+            }
+
+            System.out.println();
+            System.out.println("Elements with localname of servlet:");
+            for (Content servletElements : doc.getDescendants(new ElementFilter("servlet"))) {
+                System.out.println(servletElements);
+            }
+
+
+            System.out.println();
+            System.out.println("Elements with localname of servlet-name or servlet-class:");
+            Filter servletNameOrServletClass = new ElementFilter("servlet-name").or(new ElementFilter("servlet-class"));
+            for (Content content : doc.getDescendants(servletNameOrServletClass)) {
+                System.out.println(content);
+            }
+
+            System.out.println();
+            System.out.println("Remove elements with localname of servlet:");
+            Iterator<Content> it = doc.getDescendants(new ElementFilter("servlet")).iterator();
+            while (it.hasNext()) {
+                it.next();
+                it.remove();
+            }
+
+            XMLOutputter outputter = new XMLOutputter();
+            outputter.output(doc, System.out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
-        System.out.println();
-        System.out.println("All elements:");
-        for (Content elementDescendants : doc.getDescendants(new ElementFilter())) {
-            System.out.println(elementDescendants);
-        }
-
-        System.out.println();
-        System.out.println("All non-elements:");
-        for (Content nonElementDescendants : doc.getDescendants(new ElementFilter().negate())) {
-            System.out.println(nonElementDescendants);
-        }
-
-        System.out.println();
-        System.out.println("Elements with localname of servlet:");
-        for (Content servletElements : doc.getDescendants(new ElementFilter("servlet"))) {
-            System.out.println(servletElements);
-        }
-
-
-        System.out.println();
-        System.out.println("Elements with localname of servlet-name or servlet-class:");
-        Filter servletNameOrServletClass = new ElementFilter("servlet-name").or(new ElementFilter("servlet-class"));
-        for (Content content : doc.getDescendants(servletNameOrServletClass)) {
-            System.out.println(content);
-        }
-
-        System.out.println();
-        System.out.println("Remove elements with localname of servlet:");
-        Iterator<Content> it = doc.getDescendants(new ElementFilter("servlet")).iterator();
-        while (it.hasNext()) {
-            it.next();
-            it.remove();
-        }
-
-        XMLOutputter outputter = new XMLOutputter();
-        outputter.output(doc, System.out);
     }
 }

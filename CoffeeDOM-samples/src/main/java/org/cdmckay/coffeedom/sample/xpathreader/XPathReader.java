@@ -63,6 +63,7 @@ import org.cdmckay.coffeedom.input.SAXBuilder;
 import org.cdmckay.coffeedom.xpath.XPath;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -83,33 +84,37 @@ public class XPathReader {
         String filename = args[0];
 
         SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(new File(filename));
+        try {
+            Document doc = builder.build(new File(filename));
 
-        // Print servlet information
-        XPath servletPath = XPath.newInstance("//servlet");
-        List<Object> servlets = servletPath.selectNodes(doc);
+            // Print servlet information
+            XPath servletPath = XPath.newInstance("//servlet");
+            List<Object> servlets = servletPath.selectNodes(doc);
 
-        System.out.println("This WAR has " + servlets.size() + " registered servlets:");
-        for (Object node : servlets) {
-            Element servlet = (Element) node;
-            System.out.format("\t%s for %s",
-                    servlet.getChild("servlet-name").getTextTrim(),
-                    servlet.getChild("servlet-class").getTextTrim());
-            List<Element> initParams = servlet.getChildren("init-param");
-            System.out.println(" (it has " + initParams.size() + " init-params)");
-        }
-
-        // Print security role information
-        XPath rolePath = XPath.newInstance("//security-role/role-name/text()");
-        List<Object> roleNames = rolePath.selectNodes(doc);
-
-        if (roleNames.isEmpty()) {
-            System.out.println("This WAR contains no roles.");
-        } else {
-            System.out.println("This WAR contains " + roleNames.size() + " roles:");
-            for (Object roleName : roleNames) {
-                System.out.println("\t" + ((Text) roleName).getTextTrim());
+            System.out.println("This WAR has " + servlets.size() + " registered servlets:");
+            for (Object node : servlets) {
+                Element servlet = (Element) node;
+                System.out.format("\t%s for %s",
+                        servlet.getChild("servlet-name").getTextTrim(),
+                        servlet.getChild("servlet-class").getTextTrim());
+                List<Element> initParams = servlet.getChildren("init-param");
+                System.out.println(" (it has " + initParams.size() + " init-params)");
             }
+
+            // Print security role information
+            XPath rolePath = XPath.newInstance("//security-role/role-name/text()");
+            List<Object> roleNames = rolePath.selectNodes(doc);
+
+            if (roleNames.isEmpty()) {
+                System.out.println("This WAR contains no roles.");
+            } else {
+                System.out.println("This WAR contains " + roleNames.size() + " roles:");
+                for (Object roleName : roleNames) {
+                    System.out.println("\t" + ((Text) roleName).getTextTrim());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -60,6 +60,8 @@ import org.cdmckay.coffeedom.output.Format;
 import org.cdmckay.coffeedom.output.XMLOutputter;
 import org.cdmckay.coffeedom.transform.XSLTransformer;
 
+import java.io.IOException;
+
 /**
  * Example of a program that applies an XSL transform to an XML document.
  */
@@ -74,12 +76,17 @@ public class XSLTransform {
         String xmlFilename = args[0];
         String xslFilename = args[1];
         SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(xmlFilename);
 
-        XSLTransformer transformer = new XSLTransformer(xslFilename);
-        Document transformedDoc = transformer.transform(doc);
+        try {
+            Document doc = builder.build(xmlFilename);
 
-        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-        outputter.output(transformedDoc, System.out);
+            XSLTransformer transformer = new XSLTransformer(xslFilename);
+            Document transformedDoc = transformer.transform(doc);
+
+            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+            outputter.output(transformedDoc, System.out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

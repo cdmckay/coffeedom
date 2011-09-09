@@ -59,6 +59,8 @@ import org.cdmckay.coffeedom.input.SAXBuilder;
 import org.cdmckay.coffeedom.output.Format;
 import org.cdmckay.coffeedom.output.XMLOutputter;
 
+import java.io.IOException;
+
 /**
  * <code>SAXBuilderDemo</code> demonstrates how to build a CoffeeDOM <code>Document</code> using a SAX 2.0 parser.
  *
@@ -108,10 +110,14 @@ public class SAXBuilderDemo {
         builder.setExpandEntities(expandEntities);
         //builder.setIgnoringBoundaryWhitespace(true);
 
-        Document doc = builder.build(filename);
+        try {
+            Document doc = builder.build(filename);
 
-        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-        //outputter.setExpandEmptyElements(true);
-        outputter.output(doc, System.out);
+            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+            //outputter.setExpandEmptyElements(true);
+            outputter.output(doc, System.out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

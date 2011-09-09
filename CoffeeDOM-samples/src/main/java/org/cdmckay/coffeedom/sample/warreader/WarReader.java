@@ -59,6 +59,7 @@ import org.cdmckay.coffeedom.Element;
 import org.cdmckay.coffeedom.input.SAXBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -80,43 +81,47 @@ public class WarReader {
         String filename = args[0];
 
         SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(new File(filename));
+        try {
+            Document doc = builder.build(new File(filename));
 
-        // Get the root element.
-        Element root = doc.getRootElement();
+            // Get the root element.
+            Element root = doc.getRootElement();
 
-        // Print servlet information.
-        List<Element> servlets = root.getChildren("servlet");
-        System.out.println("This WAR has " + servlets.size() + " registered servlets:");
-        for (Element servlet : servlets) {
+            // Print servlet information.
+            List<Element> servlets = root.getChildren("servlet");
+            System.out.println("This WAR has " + servlets.size() + " registered servlets:");
+            for (Element servlet : servlets) {
 
-            System.out.format("\t%s for %s",
-                    servlet.getChild("servlet-name").getTextTrim(),
-                    servlet.getChild("servlet-class").getTextTrim());
-            List<Element> initParams = servlet.getChildren("init-param");
-            System.out.println(" (it has " + initParams.size() + " init-params)");
-        }
-
-        // Print security role information.
-        List<Element> securityRoles = root.getChildren("security-role");
-        if (securityRoles.isEmpty()) {
-             System.out.println("This WAR contains no roles.");
-        } else {
-            Element securityRole = securityRoles.get(0);
-            List<Element> roleNames = securityRole.getChildren("role-name");
-            System.out.println("This WAR contains " + roleNames.size() + " roles:");
-
-            for (Element roleName : roleNames) {
-                System.out.println("\t" + roleName.getTextTrim());
+                System.out.format("\t%s for %s",
+                        servlet.getChild("servlet-name").getTextTrim(),
+                        servlet.getChild("servlet-class").getTextTrim());
+                List<Element> initParams = servlet.getChildren("init-param");
+                System.out.println(" (it has " + initParams.size() + " init-params)");
             }
-        }
 
-        // Print distributed information (notice this is out of order)
-        List<Element> distributed = root.getChildren("distributed");
-        if (distributed.isEmpty()) {
-            System.out.println("This WAR is not distributed.");
-        } else {
-            System.out.println("This WAR is distributed.");
+            // Print security role information.
+            List<Element> securityRoles = root.getChildren("security-role");
+            if (securityRoles.isEmpty()) {
+                 System.out.println("This WAR contains no roles.");
+            } else {
+                Element securityRole = securityRoles.get(0);
+                List<Element> roleNames = securityRole.getChildren("role-name");
+                System.out.println("This WAR contains " + roleNames.size() + " roles:");
+
+                for (Element roleName : roleNames) {
+                    System.out.println("\t" + roleName.getTextTrim());
+                }
+            }
+
+            // Print distributed information (notice this is out of order)
+            List<Element> distributed = root.getChildren("distributed");
+            if (distributed.isEmpty()) {
+                System.out.println("This WAR is not distributed.");
+            } else {
+                System.out.println("This WAR is distributed.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
