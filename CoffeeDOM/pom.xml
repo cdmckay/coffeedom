@@ -27,8 +27,8 @@
 
     <scm>
         <url>http://code.google.com/p/coffeedom/source/browse/</url>
-        <connection>scm:hg:https://coffeedom.googlecode.com/hg/</connection>
-        <developerConnection>scm:hg:https://coffeedom.googlecode.com/hg/</developerConnection>
+        <connection>scm:hg:https://cdmckay@code.google.com/p/coffeedom/</connection>
+        <developerConnection>scm:hg:https://cdmckay@code.google.com/p/coffeedom/</developerConnection>
     </scm>
 
     <developers>
