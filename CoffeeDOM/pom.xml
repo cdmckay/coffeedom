@@ -10,7 +10,7 @@
 
     <groupId>org.cdmckay.coffeedom</groupId>
     <artifactId>coffeedom</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>CoffeeDOM</name>
@@ -68,6 +68,7 @@
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
+                <version>2.3.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
