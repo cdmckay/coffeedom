@@ -454,8 +454,10 @@ public class SAXBuilder {
      * @param in <code>InputSource</code> to read from
      * @return <code>Document</code> resultant Document object
      * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed
      */
-    public Document build(InputSource in) throws CoffeeDOMException {
+    public Document build(InputSource in) throws CoffeeDOMException, IOException {
         SAXHandler contentHandler = null;
 
         try {
@@ -497,8 +499,6 @@ public class SAXBuilder {
             parser.parse(in);
 
             return contentHandler.getDocument();
-        } catch (IOException e) {
-            throw new CoffeeDOMIOException(e);
         } catch (SAXParseException e) {
             Document doc = contentHandler.getDocument();
             if (!doc.hasRootElement()) {
@@ -793,9 +793,11 @@ public class SAXBuilder {
      *
      * @param in <code>InputStream</code> to read from
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed.
      */
-    public Document build(InputStream in) throws CoffeeDOMException {
+    public Document build(InputStream in) throws CoffeeDOMException, IOException {
         return build(new InputSource(in));
     }
 
@@ -804,16 +806,16 @@ public class SAXBuilder {
      *
      * @param file <code>File</code> to read from
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed
      */
-    public Document build(File file) throws CoffeeDOMException {
+    public Document build(File file) throws CoffeeDOMException, IOException {
         try {
             URL url = fileToURL(file);
             return build(url);
         } catch (MalformedURLException e) {
             throw new CoffeeDOMException("Error in building", e);
-        } catch (IOException e) {
-            throw new CoffeeDOMIOException(e);
         }
     }
 
@@ -822,22 +824,24 @@ public class SAXBuilder {
      *
      * @param url <code>URL</code> to read from.
      * @return <code>Document</code> - resultant Document object.
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed.
      */
-    public Document build(URL url) throws CoffeeDOMException {
-        String systemID = url.toExternalForm();
-        return build(new InputSource(systemID));
+    public Document build(URL url) throws CoffeeDOMException, IOException {
+        String systemId = url.toExternalForm();
+        return build(new InputSource(systemId));
     }
 
     /**
      * <p> This builds a document from the supplied input stream. </p>
      *
-     * @param in       <code>InputStream</code> to read from.
+     * @param in <code>InputStream</code> to read from.
      * @param systemId base for resolving relative URIs
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
      */
-    public Document build(InputStream in, String systemId) throws CoffeeDOMException {
+    public Document build(InputStream in, String systemId) throws CoffeeDOMException, IOException {
         InputSource src = new InputSource(in);
         src.setSystemId(systemId);
         return build(src);
@@ -850,9 +854,11 @@ public class SAXBuilder {
      *
      * @param characterStream <code>Reader</code> to read from
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed.
      */
-    public Document build(Reader characterStream) throws CoffeeDOMException {
+    public Document build(Reader characterStream) throws CoffeeDOMException, IOException {
         return build(new InputSource(characterStream));
     }
 
@@ -864,9 +870,11 @@ public class SAXBuilder {
      * @param characterStream <code>Reader</code> to read from.
      * @param systemId        base for resolving relative URIs
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed.
      */
-    public Document build(Reader characterStream, String systemId) throws CoffeeDOMException {
+    public Document build(Reader characterStream, String systemId) throws CoffeeDOMException, IOException {
         InputSource src = new InputSource(characterStream);
         src.setSystemId(systemId);
         return build(src);
@@ -877,9 +885,11 @@ public class SAXBuilder {
      *
      * @param systemId URI for the input
      * @return <code>Document</code> resultant Document object
-     * @throws org.cdmckay.coffeedom.CoffeeDOMException when errors occur in parsing
+     * @throws CoffeeDOMException when errors occur in parsing
+     * @throws IOException when an I/O error prevents a document
+     *         from being fully parsed.
      */
-    public Document build(String systemId) throws CoffeeDOMException {
+    public Document build(String systemId) throws CoffeeDOMException, IOException {
         return build(new InputSource(systemId));
     }
 
